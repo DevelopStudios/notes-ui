@@ -1,5 +1,5 @@
 // src/app/core/services/auth.service.ts
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -21,8 +21,10 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
   private readonly ACCESS_TOKEN_KEY = 'access_token';
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
-
-  constructor(private http: HttpClient) { }
+  private isBrowser: boolean;
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = this.platformId ==='browser';
+   }
 
   /** Authentication Calls **/
 
@@ -43,16 +45,24 @@ export class AuthService {
   /** Token Management **/
 
   private setTokens(accessToken: string, refreshToken: string): void {
+    if(this.isBrowser){
     localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
     localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
+    }
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem(this.ACCESS_TOKEN_KEY);
+    if (this.isBrowser) { // <-- GUARD: Only run in browser
+      return localStorage.getItem(this.ACCESS_TOKEN_KEY);
+    }
+    return null; // Return null on the server
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    if (this.isBrowser) { // <-- GUARD: Only run in browser
+      return localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    }
+    return null;
   }
 
   isAuthenticated(): boolean {
@@ -60,7 +70,13 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    if (this.isBrowser) { // <-- GUARD: Only run in browser
+      localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+      localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    }
   }
+}
+
+function isPlatformBrowser(platformId: Object): boolean {
+  throw new Error('Function not implemented.');
 }
