@@ -1,0 +1,24 @@
+import { Component } from '@angular/core';
+import { AuthService } from '../../core/services/auth';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-shell',
+  imports: [CommonModule, RouterModule],
+  templateUrl: './shell.html',
+  styleUrl: './shell.css',
+})
+export class Shell {
+constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+    
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+}

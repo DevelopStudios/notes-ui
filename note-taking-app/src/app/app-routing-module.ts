@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.routes').then(m => m.authRoutes)
   },
-  { path: '', redirectTo: 'auth', pathMatch: 'full' }
+  { path: '', loadChildren: ()=>import('./main/main.routes').then(m => m.mainRoutes)}
 ];
 
 @NgModule({

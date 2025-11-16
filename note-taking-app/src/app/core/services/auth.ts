@@ -3,6 +3,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { isPlatformBrowser } from '@angular/common';
 
 interface TokenResponse {
   refresh: string;
@@ -23,7 +24,7 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private isBrowser: boolean;
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
-    this.isBrowser = this.platformId ==='browser';
+    this.isBrowser = isPlatformBrowser(this.platformId);
    }
 
   /** Authentication Calls **/
@@ -75,8 +76,4 @@ export class AuthService {
       localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     }
   }
-}
-
-function isPlatformBrowser(platformId: Object): boolean {
-  throw new Error('Function not implemented.');
 }

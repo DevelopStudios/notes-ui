@@ -31,6 +31,7 @@ loginForm: FormGroup;
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
+          console.log(true);
           // Success: Navigate to the main application page
           this.router.navigate(['/']); 
         },

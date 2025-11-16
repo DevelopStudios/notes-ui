@@ -1,0 +1,28 @@
+<div class="dashboard-container">
+  <h1>Your Notes</h1>
+
+  <div *ngIf="notes$ | async as notes; else loading">
+    
+    <div *ngIf="notes.length === 0" class="no-notes">
+      <p>You don't have any notes yet.</p>
+      </div>
+
+    <ul class="notes-list" *ngIf="notes.length > 0">
+      <li *ngFor="let note of notes" class="note-item">
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.content | slice:0:100 }}...</p> <div class="note-footer">
+          <small>Last updated: {{ note.updated_at | date: 'short' }}</small>
+          <div>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #loading>
+    <p>Loading notes...</p>
+  </ng-template>
+
+</div>
