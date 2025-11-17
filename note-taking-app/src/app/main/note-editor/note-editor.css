@@ -1,0 +1,33 @@
+/* src/app/main/note-editor/note-editor.component.css */
+.editor-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: inline-block;
+}
