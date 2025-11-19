@@ -1,18 +1,29 @@
 <div class="dashboard-container">
+  
   <div class="dashboard-header">
     <h1>Your Notes</h1>
     <a routerLink="/notes/new" class="btn-create">+ New Note</a>
   </div>
 
+  <div class="search-bar">
+    <input 
+      type="text" 
+      [formControl]="searchControl" 
+      placeholder="Search notes by title or content..."
+    >
+  </div>
+
   <div *ngIf="notes$ | async as notes; else loading">
     
     <div *ngIf="notes.length === 0" class="no-notes">
-      <p>You don't have any notes yet.</p>
-      <a routerLink="/notes/new">Create your first note!</a>
+      <p *ngIf="searchControl.value === ''">You don't have any notes yet.</p>
+      <p *ngIf="searchControl.value !== ''">No notes match your search.</p>
+      
+      <a *ngIf="searchControl.value === ''" routerLink="/notes/new">Create your first note!</a>
     </div>
 
     <ul class="notes-list" *ngIf="notes.length > 0">
-      <li *ngFor="let note of notes" class="note-item">
+       <li *ngFor="let note of notes" class="note-item">
         <h2>{{ note.title }}</h2>
         <p>{{ note.content | slice:0:100 }}...</p>
         <div class="note-footer">
@@ -26,5 +37,5 @@
     </ul>
   </div>
   
-  <ng-template #loading><p>Loading notes...</p></ng-template>
+  <ng-template #loading><p>Loading...</p></ng-template>
 </div>

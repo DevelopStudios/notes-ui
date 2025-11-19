@@ -1,20 +1,28 @@
 // src/app/core/interceptors/jwt.interceptor.ts
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; // <-- Import Inject & PLATFORM_ID
+import { isPlatformBrowser } from '@angular/common'; // <-- Import isPlatformBrowser
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../services/auth';
 
+
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object // <-- Inject the Platform ID
+  ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const accessToken = this.authService.getAccessToken();
@@ -27,6 +35,18 @@ export class JwtInterceptor implements HttpInterceptor {
         }
       });
     }
-    return next.handle(request);
+
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          const isLoginRequest = request.url.endsWith('token/');
+          if (!isLoginRequest && isPlatformBrowser(this.platformId)) {
+            this.authService.logout();
+            this.router.navigate(['/auth/login']);
+          }
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }

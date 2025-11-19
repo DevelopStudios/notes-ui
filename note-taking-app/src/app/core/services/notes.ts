@@ -33,6 +33,12 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/'; // Ba
     return this.http.post<Note>(this.apiUrl, note);
   }
 
+  // GET: /api/notes/search/?q={query}
+  searchNote(query:string): Observable<PaginatedNoteResponse> {
+    return this.http.get<PaginatedNoteResponse>(`${this.apiUrl}search/`,{
+      params:{q: query}
+    });
+  }
   // PUT: /api/notes/{id}/
   updateNote(id: number, note: { title: string, content: string }): Observable<Note> {
     return this.http.put<Note>(`${this.apiUrl}${id}/`, note);
