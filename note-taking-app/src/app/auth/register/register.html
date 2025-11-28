@@ -1,5 +1,17 @@
 <div class="auth-container">
-  <h2>Register</h2>
+ <div class="brand-container">
+    <div class="logo">
+      <img src="/assets/logo.svg" alt="">
+    </div>
+    <div class="message">
+      <div class="title">
+        Create Your Account
+      </div>
+      <div class="text">
+        Sign up to start organizing your notes and boost your productivity.
+      </div>
+    </div>
+  </div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
     <div *ngIf="error" class="error-message">{{ error }}</div>
@@ -24,5 +36,5 @@
     <button type="submit" [disabled]="registerForm.invalid">Register</button>
   </form>
 
-  <p>Already have an account? <a routerLink="/auth/login">Log in here</a></p>
+  <p>Already have an account?  <a class="login-link" routerLink="/auth/login">Login</a></p>
 </div>

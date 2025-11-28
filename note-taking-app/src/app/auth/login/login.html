@@ -1,27 +1,41 @@
 <div class="auth-container">
-  <h2>Login</h2>
+  <div class="brand-container">
+    <div class="logo">
+      <img src="/assets/logo.svg" alt="">
+    </div>
+    <div class="message">
+      <div class="title">
+        Welcome to Note
+      </div>
+      <div class="text">
+        Please log in to continue
+      </div>
+    </div>
+  </div>
+  
+
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     
     <div *ngIf="error" class="error-message">{{ error }}</div>
 
     <div class="form-group">
-      <label for="username">Username</label>
-      <input id="username" type="text" formControlName="username" placeholder="Username" required>
+      <label for="username">Email Address</label>
+      <input id="username" type="text" formControlName="username" placeholder="email@example.com" required>
       <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="validation-error">
         Username is required.
       </div>
     </div>
 
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="password">Password <span class="link">Forgot</span></label>
       <input id="password" type="password" formControlName="password" placeholder="Password" required>
       <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="validation-error">
         Password is required.
       </div>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Log In</button>
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
   </form>
 
-  <p>Don't have an account? <a routerLink="/auth/register">Register here</a></p>
+  <p>No account yet? <a class="signup-link" routerLink="/auth/register">Sign Up</a></p>
 </div>
