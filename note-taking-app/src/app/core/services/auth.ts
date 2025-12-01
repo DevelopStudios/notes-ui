@@ -43,6 +43,14 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}users/register/`, credentials);
   }
 
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}password-reset/`, {email});
+  }
+  
+  confirmPasswordReset(data: {uid: string, token:string,new_password:string}){
+    return this.http.post(`${this.apiUrl}password-reset-confirm/`, data);
+  }
+  
   /** Token Management **/
 
   private setTokens(accessToken: string, refreshToken: string): void {
