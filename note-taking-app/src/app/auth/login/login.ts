@@ -13,7 +13,8 @@ import { AuthService } from '../../core/services/auth';
 })
 export class Login {
 loginForm: FormGroup;
-  error: string | null = null;
+error: string | null = null;
+showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -31,12 +32,9 @@ loginForm: FormGroup;
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
-          console.log(true);
-          // Success: Navigate to the main application page
           this.router.navigate(['/']); 
         },
         error: (err) => {
-          // Failure: Display error message
           this.error = 'Invalid username or password.';
           console.error('Login Error:', err);
         }
@@ -44,5 +42,9 @@ loginForm: FormGroup;
     } else {
       this.error = 'Please fill out all fields.';
     }
+  }
+
+  togglePasswordVisibility():void {
+    this.showPassword = !this.showPassword;
   }
 }

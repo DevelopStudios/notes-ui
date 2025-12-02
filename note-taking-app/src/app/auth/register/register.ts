@@ -12,9 +12,10 @@ import { AuthService } from '../../core/services/auth';
   styleUrl: './register.css',
 })
 export class Register {
-registerForm: FormGroup;
+  registerForm: FormGroup;
   error: string | null = null;
   success: string | null = null;
+  showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -24,8 +25,6 @@ registerForm: FormGroup;
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      // Django registration often requires email, add if necessary
-      // email: ['', [Validators.required, Validators.email]] 
     });
   }
 
@@ -48,4 +47,9 @@ registerForm: FormGroup;
       this.error = 'Please fill out all fields.';
     }
   }
+
+  toggleShowPassword():void {
+    this.showPassword = !this.showPassword;
+  }
+  
 }
