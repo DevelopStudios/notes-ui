@@ -23,7 +23,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  width: 89vw;
+  width: 100%;
   background-color: #fff; /* White background per design */
 }
 
@@ -81,11 +81,11 @@
 
 .btn-create-block {
   display: block;
-  width: 100%;
-  background-color: #2563EB; /* Bright Blue */
+  width: 99%;
+  background-color: #2563EB;
   color: white;
   text-align: center;
-  padding: 0.75rem;
+  padding: 0.75rem 0.10rem;
   border-radius: 6px;
   font-weight: 500;
   text-decoration: none;
@@ -191,13 +191,12 @@
 }
 
 /* --- RESPONSIVE --- */
-/* On mobile, we hide the grid and just show the list (handled by your existing logic mostly) */
 @media (max-width: 1024px) {
   .dashboard-grid {
-    grid-template-columns: 1fr; /* Stack everything or just show list */
+    grid-template-columns: 1fr;
   }
   .note-editor-container, .note-actions-sidebar {
-    display: none; /* Hide details on smaller screens (use routing instead) */
+    display: none;
   }
 }
 

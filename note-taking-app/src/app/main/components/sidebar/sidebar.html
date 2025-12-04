@@ -1,19 +1,46 @@
-<nav class="sidebar">
-  <div class="logo">Notes</div>
+<aside class="sidebar-container">
   
-  <div class="menu-group">
-    <a routerLink="/dashboard" routerLinkActive="active" class="menu-item">
-      <i class="icon-home"></i> All Notes
-    </a>
-    <a routerLink="/archived" routerLinkActive="active" class="menu-item">
-      <i class="icon-archive"></i> Archived Notes
-    </a>
+  <div class="sidebar-header">
+    <img src="/assets/logo.svg" alt="">
   </div>
 
-  <div class="tags-group">
-    <h3>Tags</h3>
-    <a *ngFor="let tag of tags" [routerLink]="['/tags', tag.id]" class="tag-item">
-      <i class="icon-tag"></i> {{ tag.name }}
+  <nav class="sidebar-nav">
+    
+    <a routerLink="/dashboard" 
+       routerLinkActive="active" 
+       [routerLinkActiveOptions]="{exact: true}"
+       class="nav-item">
+      <div class="nav-content">
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>All Notes</span>
+      </div>
+      <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </a>
+
+    <a routerLink="/archived" 
+       routerLinkActive="active"
+       class="nav-item">
+      <div class="nav-content">
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+        <span>Archived Notes</span>
+      </div>
+      <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </a>
+
+  </nav>
+
+  <div class="tags-section">
+    <h3 class="tags-header">Tags</h3>
+    
+    <div class="tags-list">
+      <a *ngFor="let tag of tags" 
+         [routerLink]="['/tags', tag]" 
+         routerLinkActive="active"
+         class="tag-item">
+        <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+        <span>{{ tag }}</span>
+      </a>
+    </div>
   </div>
-</nav>
+
+</aside>

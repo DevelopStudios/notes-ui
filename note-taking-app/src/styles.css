@@ -121,6 +121,12 @@ html {
   margin: 0 auto;
 }
 
+@media (min-width: 769px) {
+  .header-content {
+    display: none;
+  }
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -158,9 +164,8 @@ html {
 .logout-btn:hover {
   background-color: #d32f2f;
 }
-
-.app-main {
-  max-width: 1200px;
+main.app-main {
+    width: 100% !important;
 }
 
 /* src/styles.css */
