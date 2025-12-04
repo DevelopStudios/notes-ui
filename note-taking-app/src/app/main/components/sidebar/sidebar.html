@@ -1,0 +1,19 @@
+<nav class="sidebar">
+  <div class="logo">Notes</div>
+  
+  <div class="menu-group">
+    <a routerLink="/dashboard" routerLinkActive="active" class="menu-item">
+      <i class="icon-home"></i> All Notes
+    </a>
+    <a routerLink="/archived" routerLinkActive="active" class="menu-item">
+      <i class="icon-archive"></i> Archived Notes
+    </a>
+  </div>
+
+  <div class="tags-group">
+    <h3>Tags</h3>
+    <a *ngFor="let tag of tags" [routerLink]="['/tags', tag.id]" class="tag-item">
+      <i class="icon-tag"></i> {{ tag.name }}
+    </a>
+  </div>
+</nav>

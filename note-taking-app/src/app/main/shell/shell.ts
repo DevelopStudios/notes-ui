@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { Sidebar } from '../components/sidebar/sidebar';
+import { BottomNav } from '../components/bottom-nav/bottom-nav';
 
 @Component({
   selector: 'app-shell',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, Sidebar, BottomNav],
   templateUrl: './shell.html',
   styleUrl: './shell.css',
 })

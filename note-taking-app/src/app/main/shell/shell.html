@@ -1,15 +1,26 @@
 <header class="app-header">
   <div class="header-content">
-    <div class="logo">Note Keeper</div>
-    <nav>
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      </nav>
-    <div class="user-actions">
-      <button (click)="logout()" class="logout-btn">Logout</button>
+    <div class="logo">
+      <img src="/assets/logo.svg" alt="">
     </div>
   </div>
 </header>
 
+<div class="app-layout">
+
+<app-sidebar class="desktop-nav"></app-sidebar>
+
 <main class="app-main">
   <router-outlet></router-outlet>
 </main>
+
+<a routerLink="/notes/new" class="mobile-fab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+</a>
+
+<app-bottom-nav class="mobile-nav"></app-bottom-nav>
+
+</div>

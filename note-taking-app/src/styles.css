@@ -5,8 +5,9 @@
   --bg-primary: #F3F5F8;
   --text-primary: #0E121B;
   --accent-color: #335CFF;
-  --card-bg: #E0E4EA;/* Light Mode (Default) */
+  --card-bg: #E0E4EA;
   --active-bg: #F3F5F8;
+  --content: #fff;
 }
 
 /* Dark Mode Overrides */
@@ -16,6 +17,7 @@
   --accent-color: #335CFF;
   --card-bg: #0E121B;
   --active-bg: #232530;
+  --content: #0E121B;
 }
 
 .auth-container {
@@ -101,11 +103,13 @@ button:disabled {
     cursor: not-allowed;
 }
 
+html {
+    background-color: var(--active-bg);
+}
+
 .app-header {
-  background-color: #ffffff;
-  padding: 0 2rem;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  padding: 0 20px;
+  margin: -6px;
 }
 
 .header-content {
@@ -157,8 +161,6 @@ button:disabled {
 
 .app-main {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 2rem;
 }
 
 /* src/styles.css */
@@ -236,6 +238,10 @@ button:disabled {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.dashboard-container {
+  background: var(--content);
 }
 
 .btn-create {

@@ -4,7 +4,7 @@ import { debounceTime, distinctUntilChanged, map, Observable, startWith, switchM
 import { Note } from '../../core/models/note.model';
 import { NotesService } from '../../core/services/notes';
 import { Router, RouterModule } from '@angular/router';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,11 +15,18 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class Dashboard implements OnInit {
   public notes$!: Observable<Note[]>;
   public searchControl = new FormControl('');
-
+  selectedNote: Note | null = null;
+  selectedNoteId: number | null = null;
+  editorForm: FormGroup;
   constructor(
     private notesService: NotesService, 
-    private router: Router
-  ) { }
+    private router: Router, private fb: FormBuilder
+  ) {
+    this.editorForm = this.fb.group({
+      title:['',Validators.required],
+      content: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
 
@@ -44,6 +51,34 @@ export class Dashboard implements OnInit {
     this.router.navigate(['/notes', id]);
   }
 
+  selectNote(note: Note): void {
+    this.selectedNote = note;
+    this.selectedNoteId = note.id;
+
+    this.editorForm.patchValue({
+      title: note.title,
+      content: note.content
+    });
+  }
+
+  loadNotes():void {
+    this.notesService.getNotes().subscribe({
+      next: (notes: any)=>{
+        console.log(notes);
+      }
+    })
+  }
+
+  saveNote(): void {
+    if (this.selectedNoteId && this.editorForm.valid) {
+      const formValue = this.editorForm.value;
+      this.notesService.updateNote(this.selectedNoteId, formValue).subscribe(()=> {
+        this.loadNotes();
+        alert('Note saved');
+      });
+    }
+  }
+
   deleteNote(id:number):void {
     if(confirm('Are you sure you want to delete this note')){
       this.notesService.deleteNote(id).subscribe(()=>{
@@ -51,4 +86,11 @@ export class Dashboard implements OnInit {
       });
     }
   }
+
+  cancelEdit():void {
+    if(this.selectedNote){
+      this.selectNote(this.selectedNote);
+    }
+  }
+
 }

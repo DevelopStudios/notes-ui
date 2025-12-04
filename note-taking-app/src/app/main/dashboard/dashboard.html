@@ -1,41 +1,123 @@
 <div class="dashboard-container">
   
   <div class="dashboard-header">
-    <h1>Your Notes</h1>
-    <a routerLink="/notes/new" class="btn-create">+ New Note</a>
-  </div>
-
-  <div class="search-bar">
-    <input 
-      type="text" 
-      [formControl]="searchControl" 
-      placeholder="Search notes by title or content..."
-    >
-  </div>
-
-  <div *ngIf="notes$ | async as notes; else loading">
-    
-    <div *ngIf="notes.length === 0" class="no-notes">
-      <p *ngIf="searchControl.value === ''">You don't have any notes yet.</p>
-      <p *ngIf="searchControl.value !== ''">No notes match your search.</p>
-      
-      <a *ngIf="searchControl.value === ''" routerLink="/notes/new">Create your first note!</a>
+    <h1>All Notes</h1>
+    <div class="header-actions">
+      <input 
+        type="text" 
+        [formControl]="searchControl" 
+        class="search-input" 
+        placeholder="Search by title, content, or tags..."
+      >
+      <button class="icon-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
     </div>
+  </div>
 
-    <ul class="notes-list" *ngIf="notes.length > 0">
-       <li *ngFor="let note of notes" class="note-item">
-        <h2>{{ note.title }}</h2>
-        <p>{{ note.content | slice:0:100 }}...</p>
-        <div class="note-footer">
-          <small>{{ note.updated_at | date:'short' }}</small>
-          <div>
-            <button class="btn-edit" (click)="editNote(note.id)">Edit</button>
-            <button class="btn-delete" (click)="deleteNote(note.id)">Delete</button>
+  <div class="dashboard-grid">
+    
+    <div class="notes-sidebar">
+      <a routerLink="/notes/new" class="btn-create-block">+ Create New Note</a>
+      
+      <div *ngIf="notes$ | async as notes">
+        <div 
+          *ngFor="let note of notes" 
+          class="note-card"
+          [class.active]="selectedNoteId === note.id"
+          (click)="selectNote(note)"
+        >
+          <h3>{{ note.title }}</h3>
+          
+          <div class="note-card-meta">
+            <span class="tag-badge">Dev</span>
+            <span class="tag-badge">React</span>
+          </div>
+          
+          <div class="note-date">
+            {{ note.updated_at | date:'dd MMM yyyy' }}
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
+
+   <div class="note-editor-container">
+      <div *ngIf="selectedNote; else noSelection" class="editor-wrapper">
+        
+        <form [formGroup]="editorForm">
+          
+          <input 
+            type="text" 
+            formControlName="title" 
+            class="editor-title" 
+            placeholder="Note Title"
+          >
+
+          <div class="editor-meta">
+            
+            <div class="meta-item">
+              <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              <span class="meta-label">Tags</span>
+              <div class="meta-tags-list">
+                <span class="tag-pill">Dev</span>
+                <span class="tag-pill">React</span>
+              </div>
+            </div>
+
+            <div class="meta-item">
+              <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span class="meta-label">Last edited</span>
+              <span class="meta-value">{{ selectedNote.updated_at | date:'dd MMM yyyy' }}</span>
+            </div>
+
+          </div>
+          
+          <hr class="editor-divider">
+
+          <textarea 
+            formControlName="content" 
+            class="editor-content" 
+            placeholder="Start writing..."
+          ></textarea>
+
+          <div class="editor-footer">
+            <button type="button" class="btn-primary" (click)="saveNote()">Save Note</button>
+            <button type="button" class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+          </div>
+
+        </form>
+
+      </div>
+      
+      <ng-template #noSelection>
+        <div class="empty-state">
+          <p>Select a note from the list to view or edit</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="note-actions-sidebar">
+      <button class="action-card-btn" (click)="deleteNote(selectedNoteId!)" [disabled]="!selectedNoteId">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+        <span>Archive Note</span>
+      </button>
+
+      <button class="action-card-btn" (click)="deleteNote(selectedNoteId!)" [disabled]="!selectedNoteId">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        <span>Delete Note</span>
+      </button>
+    </div>
+
+    <div class="note-actions-sidebar">
+      <button class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+        Archive Note
+      </button>
+      <button class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        Delete Note
+      </button>
+    </div>
+
   </div>
-  
-  <ng-template #loading><p>Loading...</p></ng-template>
 </div>
