@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, map, Observable, startWith, switchMap } from 'rxjs';
 import { Note } from '../../core/models/note.model';
 import { NotesService } from '../../core/services/notes';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -18,19 +18,20 @@ export class Dashboard implements OnInit {
   selectedNote: Note | null = null;
   selectedNoteId: number | null = null;
   editorForm: FormGroup;
+  currentRoute: string = '';
   constructor(
     private notesService: NotesService, 
-    private router: Router, private fb: FormBuilder
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.editorForm = this.fb.group({
       title:['',Validators.required],
       content: ['', Validators.required]
     });
+    this.currentRoute = this.router.url;
   }
 
   ngOnInit(): void {
-
-
     this.notes$ = this.searchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
@@ -61,6 +62,10 @@ export class Dashboard implements OnInit {
     });
   }
 
+  private refreshList(): void {
+    this.searchControl.setValue(this.searchControl.value);
+  }
+
   loadNotes():void {
     this.notesService.getNotes().subscribe({
       next: (notes: any)=>{
@@ -69,12 +74,20 @@ export class Dashboard implements OnInit {
     })
   }
 
+  onNoteClick(note: Note): void {
+    const isMobile = window.innerWidth < 768; // Simple check
+
+    if (isMobile) {
+      this.router.navigate(['/notes', note.id]);
+    } else {
+      this.selectNote(note);
+    }
+  }
   saveNote(): void {
     if (this.selectedNoteId && this.editorForm.valid) {
       const formValue = this.editorForm.value;
       this.notesService.updateNote(this.selectedNoteId, formValue).subscribe(()=> {
-        this.loadNotes();
-        alert('Note saved');
+        this.refreshList();
       });
     }
   }
@@ -82,7 +95,12 @@ export class Dashboard implements OnInit {
   deleteNote(id:number):void {
     if(confirm('Are you sure you want to delete this note')){
       this.notesService.deleteNote(id).subscribe(()=>{
-       this.searchControl.setValue(this.searchControl.value);
+       this.refreshList();
+       if (this.selectedNoteId === id) {
+          this.selectedNote = null;
+          this.selectedNoteId = null;
+          this.editorForm.reset();
+        }
       });
     }
   }
@@ -92,5 +110,6 @@ export class Dashboard implements OnInit {
       this.selectNote(this.selectedNote);
     }
   }
+
 
 }

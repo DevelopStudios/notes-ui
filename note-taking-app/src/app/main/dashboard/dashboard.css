@@ -191,6 +191,7 @@
 }
 
 /* --- RESPONSIVE --- */
+
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
@@ -199,6 +200,21 @@
     display: none;
   }
 }
+
+@media (max-width: 769px) {
+  .dashboard-header.desktop {
+    display: none;
+  }
+  .dashboard-header.mobile {
+    display: block !important;
+  }
+}
+@media (min-width: 769px) {
+  .dashboard-header.mobile {
+    display: none;
+  }
+}
+
 
 .editor-wrapper {
   max-width: 800px;
@@ -341,3 +357,8 @@
 .action-card-btn svg {
   color: #4B5563;
 }
+
+.desktop-only-flex {
+  display: flex;
+}
+
