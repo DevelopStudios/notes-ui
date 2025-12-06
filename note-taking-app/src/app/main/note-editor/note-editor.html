@@ -1,24 +1,53 @@
-<div class="editor-container">
-  <h2>{{ isEditMode ? 'Edit Note' : 'Create New Note' }}</h2>
+<header class="editor-header">
+  <div class="header-left">
+    <a (click)="goBack()" class="btn-back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Go Back
+    </a>
+  </div>
+  
+  <div class="header-actions">
+    <button *ngIf="isEditMode" (click)="deleteNote()" class="action-icon-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+    </button>
+    
+    <button [disabled]="noteForm.invalid" (click)="onSubmit()" class="btn-save">
+      {{ isEditMode ? 'Update' : 'Save Note' }}
+    </button>
+  </div>
+</header>
 
-  <div *ngIf="error" class="error-message">{{ error }}</div>
+<main class="editor-content-area">
+  <form [formGroup]="noteForm">
+    <div *ngIf="error" class="error-message">{{ error }}</div>
 
-  <form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="title">Title</label>
-      <input id="title" type="text" formControlName="title" placeholder="Enter note title">
+    <input 
+      id="title" 
+      type="text" 
+      formControlName="title" 
+      placeholder="Title" 
+      class="content-title-input"
+    >
+
+    <hr class="content-divider">
+
+    <div class="metadata-section">
+      <div class="meta-row">
+        <span class="meta-label">Tags</span>
+        <div class="meta-value">Dev, React, TypeScript</div>
+      </div>
+      
+      <div class="meta-row">
+        <span class="meta-label">Last edited</span>
+        <span class="meta-value">{{ isEditMode ? (noteForm.value.updated_at | date:'dd MMM yyyy') : 'Draft' }}</span>
+      </div>
     </div>
-
-    <div class="form-group">
-      <label for="content">Content</label>
-      <textarea id="content" formControlName="content" rows="10" placeholder="Write your note here..."></textarea>
-    </div>
-
-    <div class="actions">
-      <button type="submit" [disabled]="noteForm.invalid">
-        {{ isEditMode ? 'Update' : 'Save' }}
-      </button>
-      <a routerLink="/dashboard" class="btn-cancel">Cancel</a>
-    </div>
+    
+    <textarea 
+      id="content" 
+      formControlName="content" 
+      placeholder="Write your note here..." 
+      class="content-textarea"
+    ></textarea>
   </form>
-</div>
+</main>

@@ -22,7 +22,8 @@ export class Dashboard implements OnInit {
   constructor(
     private notesService: NotesService, 
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
     this.editorForm = this.fb.group({
       title:['',Validators.required],
@@ -32,6 +33,16 @@ export class Dashboard implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe(params => {
+      const id = params.get('id');
+      if (id && (!this.selectedNoteId || +id !== this.selectedNoteId)) {
+        const noteId = +id;
+        this.selectedNoteId = noteId;
+        this.notesService.getNoteById(noteId).subscribe(note => {
+          this.selectNote(note, true);
+        });
+      }
+    });
     this.notes$ = this.searchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
@@ -52,7 +63,7 @@ export class Dashboard implements OnInit {
     this.router.navigate(['/notes', id]);
   }
 
-  selectNote(note: Note): void {
+  selectNote(note: Note, isInitialLoad:boolean = false): void {
     this.selectedNote = note;
     this.selectedNoteId = note.id;
 
@@ -60,6 +71,13 @@ export class Dashboard implements OnInit {
       title: note.title,
       content: note.content
     });
+    if (!isInitialLoad && window.innerWidth >= 768) {
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { id: note.id },
+            queryParamsHandling: 'merge'
+        });
+    }
   }
 
   private refreshList(): void {
@@ -75,12 +93,11 @@ export class Dashboard implements OnInit {
   }
 
   onNoteClick(note: Note): void {
-    const isMobile = window.innerWidth < 768; // Simple check
-
+    const isMobile = window.innerWidth < 768;
     if (isMobile) {
       this.router.navigate(['/notes', note.id]);
     } else {
-      this.selectNote(note);
+      this.selectNote(note); 
     }
   }
   saveNote(): void {
@@ -96,7 +113,13 @@ export class Dashboard implements OnInit {
     if(confirm('Are you sure you want to delete this note')){
       this.notesService.deleteNote(id).subscribe(()=>{
        this.refreshList();
+       
        if (this.selectedNoteId === id) {
+          this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { id: null },
+              queryParamsHandling: 'merge'
+          });
           this.selectedNote = null;
           this.selectedNoteId = null;
           this.editorForm.reset();

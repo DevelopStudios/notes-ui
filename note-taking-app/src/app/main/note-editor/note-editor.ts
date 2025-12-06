@@ -24,9 +24,15 @@ constructor(
 ) {
   this.noteForm = this.fb.group({
     title: ['', Validators.required],
-    content: ['',Validators.required]
+    content: ['',Validators.required],
+    updated_at: ['']
   });
 }
+
+goBack(): void {
+  window.history.back();
+}
+
 ngOnInit() {
   //Check if thereis an id in the URL.
   const id = this.route.snapshot.paramMap.get('id');
@@ -36,6 +42,16 @@ ngOnInit() {
     this.loadNote(this.noteId)
   }
 }
+
+deleteNote(): void {
+  if (this.noteId && confirm('Are you sure you want to delete this note?')) {
+      this.notesService.deleteNote(this.noteId).subscribe({
+        next: () => this.router.navigate(['/dashboard']),
+        error: () => this.error = 'Failed to delete note'
+      });
+  }
+}
+
 loadNote(id:number){
   this.notesService.getNoteById(id).subscribe({
     next: (note) => this.noteForm.patchValue(note),
