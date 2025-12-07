@@ -1,102 +1,27 @@
-<div class="dashboard-container">
-
-  <div class="dashboard-header desktop">
-    <h1>All Notes</h1>
-    <div class="header-actions desktop-only-flex">
-      <input 
-        type="text" 
-        [formControl]="searchControl" 
-        class="search-input" 
-        placeholder="Search..."
-      >
-      <button class="icon-btn">
-         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-      </button>
+<div class="navbar">
+   <div class="title">
+      All Notes
     </div>
-  </div>
-  <div class="dashboard-header mobile">
-    <h1>All Notes</h1>
-    <div class="header-actions desktop-only-flex" [ngStyle]="{'display': currentRoute.includes('/search') ? 'flex' : 'none'}">
-      <input 
-        type="text" 
-        [formControl]="searchControl" 
-        class="search-input" 
-        placeholder="Search..."
-      >
-    </div>
-  </div>
-
-  <div class="dashboard-grid">
-    
-    <div class="notes-sidebar">
-      <a routerLink="/notes/new" class="btn-create-block">+ Create New Note</a>
-      
-      <div *ngIf="notes$ | async as notes">
-        <div 
-          *ngFor="let note of notes" 
-          class="note-card"
-          [class.active]="selectedNoteId === note.id"
-          (click)="onNoteClick(note)"
-        >
-          <h3>{{ note.title }}</h3>
-          
-          <div class="note-card-meta">
-            <span class="tag-badge">Dev</span>
-            <span class="tag-badge">React</span>
-          </div>
-          
-          <div class="note-date">
-            {{ note.updated_at | date:'dd MMM yyyy' }}
-          </div>
-        </div>
+  <div class="navbar-brand">
+    <div class="navbar-search">
+      <div class="search-container">
+        <input type="text" placeholder="Search by title, content, or tags..." (input)="onSearchChange($event)"
+          class="search-input">
+        <i class="search-icon">
+          <img src="/assets/Search.svg" alt="Settings">
+        </i>
       </div>
     </div>
 
-    <div class="note-editor-container">
-       <div *ngIf="selectedNote; else noSelection" class="editor-wrapper">
-        <form [formGroup]="editorForm">
-          <input type="text" formControlName="title" class="editor-title" placeholder="Note Title">
-
-          <div class="editor-meta">
-            <div class="meta-item">
-              <span class="meta-label">Tags</span>
-              <div class="meta-tags-list">
-                <span class="tag-pill">Dev</span>
-                <span class="tag-pill">React</span>
-              </div>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Last edited</span>
-              <span class="meta-value">{{ selectedNote.updated_at | date:'dd MMM yyyy' }}</span>
-            </div>
-          </div>
-          
-          <hr class="editor-divider">
-
-          <textarea formControlName="content" class="editor-content" placeholder="Start writing..."></textarea>
-
-          <div class="editor-footer">
-            <button type="button" class="btn-primary" (click)="saveNote()">Save Note</button>
-            <button type="button" class="btn-secondary" (click)="cancelEdit()">Cancel</button>
-          </div>
-        </form>
-      </div>
-      
-      <ng-template #noSelection>
-        <div class="empty-state">
-          <p>Select a note from the list to view or edit</p>
-        </div>
-      </ng-template>
+    <div class="navbar-actions">
+      <button class="icon-button" aria-label="Settings and Profile">
+        <img src="/assets/Setting.svg" alt="Settings">
+       </button>
     </div>
-
-    <div class="note-actions-sidebar">
-       <button class="action-card-btn" (click)="deleteNote(selectedNoteId!)" [disabled]="!selectedNoteId">
-        Archive Note
-      </button>
-      <button class="action-card-btn" (click)="deleteNote(selectedNoteId!)" [disabled]="!selectedNoteId">
-        Delete Note
-      </button>
-    </div>
-
   </div>
 </div>
+  <div class="notes-layout">
+    <div class="notes-sidebar">... Note List ...</div>
+    <div class="note-detail">... Note Content ...</div>
+    <div class="note-actions">... Note Actions ...</div>
+  </div>
