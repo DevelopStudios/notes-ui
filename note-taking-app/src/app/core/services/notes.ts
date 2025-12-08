@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Note, PaginatedNoteResponse } from '../models/note.model';
-
-export interface Tag {
-  id: number;
-  name: string;
-}
+import { Note, PaginatedNoteResponse, PaginatedTagResponse } from '../models/note.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +13,10 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
 
   getNotes(): Observable<PaginatedNoteResponse> {
     return this.http.get<PaginatedNoteResponse>(this.apiUrl);
+  }
+
+  getTags(): Observable<PaginatedTagResponse> {
+    return this.http.get<PaginatedTagResponse>(environment.apiUrl+'tags');
   }
 
   getNoteById(id: number): Observable<Note> {

@@ -33,10 +33,12 @@
 
 /* --- NAVIGATION LINKS --- */
 .sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #E0E4EA;
 }
 
 .nav-item {

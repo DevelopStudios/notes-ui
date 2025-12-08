@@ -266,3 +266,8 @@ main.app-main {
   border-radius: 4px;
   font-weight: bold;
 }
+
+body {
+    display: block;
+    margin: 0 !important;
+}

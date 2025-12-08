@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { NotesService } from '../../../core/services/notes';
+import { Tag } from '../../../core/models/note.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,14 +11,20 @@ import { NotesService } from '../../../core/services/notes';
   styleUrl: './sidebar.css',
 })
 export class Sidebar implements OnInit {
+  tags: Tag[]=[];
   constructor(private notesService: NotesService){
 
   }
+  
   ngOnInit(): void {
+    this.getTags();
   }
 
-  tags = [
-    'Cooking', 'Dev', 'Fitness', 'Health', 'Personal', 
-    'React', 'Recipes', 'Shopping', 'Travel', 'TypeScript'
-  ]
+  getTags(){
+    this.notesService.getTags().subscribe(value => {
+      this.tags = value.results;
+    });
+  }
+
+
 }
