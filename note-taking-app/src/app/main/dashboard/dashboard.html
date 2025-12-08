@@ -1,7 +1,7 @@
 <div class="navbar">
-   <div class="title">
-      All Notes
-    </div>
+  <div class="title">
+    All Notes
+  </div>
   <div class="navbar-brand">
     <div class="navbar-search">
       <div class="search-container">
@@ -16,43 +16,44 @@
     <div class="navbar-actions">
       <button class="icon-button" aria-label="Settings and Profile">
         <img src="/assets/Setting.svg" alt="Settings">
-       </button>
+      </button>
     </div>
   </div>
 </div>
-  <div class="notes-layout">
-    <div class="notes-sidebar">
-      <div class="inner-container">
-        <div class="button-container">
-          <button class="add-button">
-            + Create New Note
-          </button>
-        </div>
-        @for(item of collection; track item){
-        <div class="note-entry">
-          <div class="title">
-           {{item.title}}
-          </div>        
-          <div class="tags">
-             @for(tag of item.tags;track tag){
-              <div class="entry">
-                {{tag.name}}
-              </div>
-              }
-          </div>
-          <div class="date">
-            {{item.created_at | date}}
-          </div>
-          </div>
-        } @empty {
-          <div class="empty-entry">
-              You don’t have any notes yet. Start a new note to capture your thoughts and ideas.
-          </div>
-        }
-        
+<div class="notes-layout">
+  <div class="notes-sidebar">
+    <div class="inner-container">
+      <div class="button-container">
+        <button class="add-button">
+          + Create New Note
+        </button>
       </div>
-  
+      @if (collection$ | async; as collection) {
+      @for(item of collection; track item){
+      <div class="note-entry">
+        <div class="title">
+          {{item.title}}
+        </div>
+        <div class="tags">
+          @for(tag of item.tags;track tag){
+          <div class="entry">
+            {{tag.name}}
+          </div>
+          }
+        </div>
+        <div class="date">
+          {{item.created_at | date}}
+        </div>
+      </div>
+      } @empty {
+      <div class="empty-entry">
+        You don’t have any notes yet. Start a new note to capture your thoughts and ideas.
+      </div>
+      }
+      }
     </div>
-    <div class="note-detail">... Note Content ...</div>
-    <div class="note-actions">... Note Actions ...</div>
+
   </div>
+  <div class="note-detail">... Note Content ...</div>
+  <div class="note-actions">... Note Actions ...</div>
+</div>
