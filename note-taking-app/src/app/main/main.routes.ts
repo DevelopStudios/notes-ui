@@ -14,6 +14,16 @@ export const mainRoutes: Routes = [
                 component: Dashboard,
                 title: 'Dashboard'
             },
+            {
+                path: 'archived',
+                component: Dashboard,
+                title: 'Archived'
+            },
+            {
+                path: 'tags',
+                component: Dashboard,
+                title: 'Tags'
+            },
             {path:'', redirectTo:'dashboard', pathMatch:'full'},
         ]
     }

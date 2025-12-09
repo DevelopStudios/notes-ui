@@ -1,0 +1,23 @@
+      @if (collection$ | async; as collection) {
+      @for(item of collection; track item){
+      <div class="note-entry">
+        <div class="title">
+          {{item.title}}
+        </div>
+        <div class="tags">
+          @for(tag of item.tags;track tag){
+          <div class="entry">
+            {{tag.name}}
+          </div>
+          }
+        </div>
+        <div class="date">
+          {{item.created_at | date}}
+        </div>
+      </div>
+      } @empty {
+      <div class="empty-entry">
+        You don’t have any notes yet. Start a new note to capture your thoughts and ideas.
+      </div>
+      }
+      }

@@ -15,12 +15,20 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
     return this.http.get<PaginatedNoteResponse>(this.apiUrl);
   }
 
+  getArchivedNotes(): Observable<PaginatedNoteResponse> {
+    return this.http.get<PaginatedNoteResponse>(this.apiUrl+'archived');
+  }
+
   getTags(): Observable<PaginatedTagResponse> {
     return this.http.get<PaginatedTagResponse>(environment.apiUrl+'tags');
   }
 
   getNoteById(id: number): Observable<Note> {
     return this.http.get<Note>(`${this.apiUrl}${id}/`);
+  }
+
+  getNotesByTag(tagId:string): Observable<PaginatedNoteResponse> {
+    return this.http.get<PaginatedNoteResponse>(this.apiUrl+'tags/'+tagId);
   }
 
   createNote(note: { title: string, content: string }): Observable<Note> {
