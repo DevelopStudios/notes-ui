@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NotesService } from '../../../core/services/notes';
-import { Tag } from '../../../core/models/note.model';
+import { PaginatedNoteResponse, PaginatedTagResponse, Tag } from '../../../core/models/note.model';
+import { response } from 'express';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,19 +13,19 @@ import { Tag } from '../../../core/models/note.model';
   styleUrl: './sidebar.css',
 })
 export class Sidebar implements OnInit {
-  tags: Tag[]=[];
+  tags$!: Observable<Tag[]>;
   constructor(private notesService: NotesService){
 
   }
-  
+
   ngOnInit(): void {
     this.getTags();
   }
 
   getTags(){
-    this.notesService.getTags().subscribe(value => {
-      this.tags = value.results;
-    });
+    this.tags$ = this.notesService.getTags().pipe(
+      map((response: PaginatedTagResponse)=> response.results)
+    );
   }
 
 
