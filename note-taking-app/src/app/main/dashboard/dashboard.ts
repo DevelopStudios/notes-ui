@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NotesService } from '../../core/services/notes';
-import { Note, PaginatedNoteResponse } from '../../core/models/note.model';
-import { map, Observable } from 'rxjs';
 import { NoteList } from "../components/note-list/note-list";
+import { NoteForm } from '../components/note-form/note-form';
+
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterModule, NoteList],
+  imports: [CommonModule, RouterModule, NoteList, NoteForm],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })

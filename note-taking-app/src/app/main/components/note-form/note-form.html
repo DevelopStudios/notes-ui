@@ -1,0 +1,41 @@
+<form [formGroup]="noteForm" (ngSubmit)="saveNote()" class="note-editor-container">
+
+    <div class="input-group title-input">
+      <input type="text" class="form-control" placeholder="Enter a title..." formControlName="title">
+    </div>
+
+    <div class="metadata-row">
+        <div class="metadata-item tags-section">
+            <span class="icon-label">
+                <svg class="metadata-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12V6a2 2 0 0 1 2-2h6l6 6v6a2 2 0 0 1-2 2h-6l-6-6Z"></path>
+                    <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                Tags
+            </span>
+            <input type="text" class="form-control tag-input" placeholder="Add tags separated by commas (e.g. Work, Planning)" formControlName="tags">
+        </div>
+
+        <div class="metadata-item last-edited">
+            <span class="icon-label">
+                <svg class="metadata-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Last edited
+            </span>
+            <span class="muted-text">Not yet saved</span>
+        </div>
+    </div>
+
+    <div class="note-body">
+        <p class="prompt-text">Start typing your note here...</p>
+        <textarea class="form-control note-textarea" rows="15" formControlName="content"></textarea>
+    </div>
+
+    <div class="action-buttons">
+        <button type="submit" class="btn btn-primary" [disabled]="noteForm.invalid">Save Note</button>
+        <button type="button" class="btn btn-secondary" (click)="noteForm.reset({ is_archived: false })">Cancel</button>
+    </div>
+
+</form>

@@ -15,7 +15,17 @@ export const mainRoutes: Routes = [
                 title: 'Dashboard'
             },
             {
+                path: 'dashboard/:id',
+                component: Dashboard,
+                title: 'Dashboard'
+            },
+            {
                 path: 'archived',
+                component: Dashboard,
+                title: 'Archived'
+            },
+            {
+                path: 'archived/:id',
                 component: Dashboard,
                 title: 'Archived'
             },
@@ -23,6 +33,11 @@ export const mainRoutes: Routes = [
                 path: 'tags/:id',
                 component: Dashboard,
                 title: 'Tags'
+            },
+            {
+                path: 'create',
+                component: Dashboard,
+                title: 'Create Note'
             },
             {path:'', redirectTo:'dashboard', pathMatch:'full'},
         ]

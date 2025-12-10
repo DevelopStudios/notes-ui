@@ -10,6 +10,14 @@ export interface Tag {
   id: number;
   name: string;
 }
+
+export interface NotePayload {
+  title: string;
+  content: string;
+  is_archived: boolean;
+  tag_names: string[];
+}
+
 export interface PaginatedNoteResponse {
     count: number;
     next: string | null;

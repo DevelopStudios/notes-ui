@@ -24,7 +24,7 @@
   <div class="notes-sidebar">
     <div class="inner-container">
       <div class="button-container">
-        <button class="add-button">
+        <button class="add-button" [routerLink]="['/create']" >
           + Create New Note
         </button>
       </div>
@@ -32,6 +32,8 @@
     </div>
     
   </div>
-  <div class="note-detail">... Note Content ...</div>
-  <div class="note-actions">... Note Actions ...</div>
+  <div class="note-detail"><app-note-form></app-note-form></div>
+  <div class="note-actions">
+
+  </div>
 </div>

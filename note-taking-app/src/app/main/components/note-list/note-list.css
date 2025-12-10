@@ -35,3 +35,6 @@
       border-bottom: unset;
       padding-bottom:11px;
 }
+a {
+    all: unset;
+}

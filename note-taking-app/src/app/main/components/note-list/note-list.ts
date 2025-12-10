@@ -1,35 +1,35 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { NotesService } from '../../../core/services/notes';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
-import { Note, PaginatedNoteResponse } from '../../../core/models/note.model';
+import { Note } from '../../../core/models/note.model';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-note-list',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './note-list.html',
   styleUrl: './note-list.css',
 })
 export class NoteList implements OnInit, AfterViewInit {
   currentStatus: string = 'all';
   collection$!: Observable<Note[]>;
-  private routeSubscription!: Subscription;
-
   constructor(
     private noteService: NotesService,
-    private route: ActivatedRoute
+    public route: ActivatedRoute
   ) {
 
   }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.url[0].path);
+
     this.collection$ = this.route.url.pipe(
       switchMap((segments) => {
         const primaryPath = segments.length > 0 ? segments[0].path : 'dashboard';
         if (primaryPath === 'archived') {
           return this.noteService.getArchivedNotes().pipe(
-            map((response:any) => response)
+            map((response: any) => response)
           );
         }
         if (primaryPath === 'tags') {
@@ -45,6 +45,7 @@ export class NoteList implements OnInit, AfterViewInit {
       })
     );
   }
+
   ngAfterViewInit(): void {
   }
 
