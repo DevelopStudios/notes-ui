@@ -33,12 +33,11 @@ export class NoteList implements OnInit, AfterViewInit {
           );
         }
         if (primaryPath === 'tags') {
-          const tagId = segments[0].parameters['id'];
-          console.log(tagId);
-          return ''
-          // return this.noteService.getNotesByTag(tagId).pipe(
-          //   map(response => response.results)
-          // );
+          const tagId = segments[1].path;
+
+          return this.noteService.getNotesByTag(tagId).pipe(
+            map(response => response.results)
+          );
         }
         return this.noteService.getNotes().pipe(
           map(response => response.results)

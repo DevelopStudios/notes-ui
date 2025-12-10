@@ -20,7 +20,7 @@ export const mainRoutes: Routes = [
                 title: 'Archived'
             },
             {
-                path: 'tags',
+                path: 'tags/:id',
                 component: Dashboard,
                 title: 'Tags'
             },

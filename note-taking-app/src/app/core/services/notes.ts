@@ -28,7 +28,7 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
   }
 
   getNotesByTag(tagId:string): Observable<PaginatedNoteResponse> {
-    return this.http.get<PaginatedNoteResponse>(this.apiUrl+'tags/'+tagId);
+    return this.http.get<PaginatedNoteResponse>(`${this.apiUrl}?tag_id=${tagId}`);
   }
 
   createNote(note: { title: string, content: string }): Observable<Note> {
