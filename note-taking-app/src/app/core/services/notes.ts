@@ -23,7 +23,7 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
     return this.http.get<PaginatedTagResponse>(environment.apiUrl+'tags');
   }
 
-  getNoteById(id: number): Observable<Note> {
+  getNoteById(id: string): Observable<Note> {
     return this.http.get<Note>(`${this.apiUrl}${id}/`);
   }
 
@@ -41,7 +41,7 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
     });
   }
 
-  updateNote(id: number, note: { title: string, content: string }): Observable<Note> {
+  updateNote(id: number, note: NotePayload): Observable<Note> {
     return this.http.put<Note>(`${this.apiUrl}${id}/`, note);
   }
 

@@ -17,6 +17,7 @@
   flex-grow: 1;
   overflow-y: auto;
   border-right: 1px solid #E0E4EA;
+  padding: 26px 20px;
 }
 
 .note-actions {

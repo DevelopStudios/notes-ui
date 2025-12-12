@@ -3,7 +3,7 @@ import { NotesService } from '../../../core/services/notes';
 import { map, Observable, Subscription, switchMap } from 'rxjs';
 import { Note } from '../../../core/models/note.model';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-note-list',
@@ -22,8 +22,6 @@ export class NoteList implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.url[0].path);
-
     this.collection$ = this.route.url.pipe(
       switchMap((segments) => {
         const primaryPath = segments.length > 0 ? segments[0].path : 'dashboard';

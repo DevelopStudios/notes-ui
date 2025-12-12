@@ -20,6 +20,7 @@
                 background: #E0E4EA;
                 padding: 5px 8px;
                 border-radius: 5px;
+                margin-right: 5px;
               }
             }
             .date {
@@ -37,4 +38,12 @@
 }
 a {
     all: unset;
+}
+
+a.active {
+  .note-entry {
+    background: #F3F5F8;
+    border-bottom: none;
+    padding-bottom: 11px;
+  }
 }

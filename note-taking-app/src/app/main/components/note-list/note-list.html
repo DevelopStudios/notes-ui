@@ -1,6 +1,6 @@
 @if (collection$ | async; as collection) {
 @for(item of collection; track item){
-<a [routerLink]="['/'+this.route.snapshot.url[0].path+`/edit`,item.id]">
+<a [routerLink]="['/'+this.route.snapshot.url[0].path+`/`,item.id]" routerLinkActive="active">
     <div class="note-entry">
         <div class="title">
             {{item.title}}

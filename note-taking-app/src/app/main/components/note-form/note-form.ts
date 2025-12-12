@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotesService } from '../../../core/services/notes';
-import { NotePayload } from '../../../core/models/note.model';
+import { Note, NotePayload } from '../../../core/models/note.model';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-note-form',
@@ -10,48 +12,85 @@ import { NotePayload } from '../../../core/models/note.model';
   templateUrl: './note-form.html',
   styleUrl: './note-form.css',
 })
-export class NoteForm {
+export class NoteForm implements OnInit{
   private fb = inject(FormBuilder);
   private noteService = inject(NotesService);
+  private route = inject(ActivatedRoute);
+  tags:string [] = [];
+  noteId:  string | null = null;
+  selectedNote: Note | null = null;
   noteForm: FormGroup = this.fb.group({
+    id: [],
     title: ['', Validators.required],
-    tags: [''], // Use a single string control for the tags input
+    tags: [''],
     content: ['', Validators.required],
     is_archived: [false]
   });
   constructor(){
-
+    
+  }
+  ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        this.noteId = params.get('id');
+        if(this.noteId){
+          this.getNote(this.noteId);
+        }
+        return ''
+      })
+    ).subscribe();
   }
 
   saveNote(): void {
+    let id  = this.noteForm.get('id')?.value;
     if (this.noteForm.invalid) {
       console.error('Form is invalid. Cannot save note.');
       return;
     }
-
     const formValue = this.noteForm.value;
-
-    // 1. Convert the comma-separated string of tags into an array of strings
     const tagArray = formValue.tags
       ? formValue.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0)
       : [];
-
-    // 2. Map the local form structure to the desired backend payload structure
     const payload: NotePayload = {
       title: formValue.title,
       content: formValue.content,
       is_archived: formValue.is_archived,
       tag_names: tagArray,
     };
-    this.noteService.createNote(payload).subscribe({
+    if(id !== null){
+    this.noteService.updateNote(id, payload).subscribe({
       next: (response) => {
-        console.log('Note saved successfully!', response);
-        // Optionally, reset the form
+        console.log('Note updated successfully!', response);
         this.noteForm.reset({ is_archived: false });
       },
       error: (error) => {
         console.error('Error saving note:', error);
-        // Handle error display
+      }
+    });
+    } else {
+    this.noteService.createNote(payload).subscribe({
+      next: (response) => {
+        console.log('Note saved successfully!', response);
+        this.noteForm.reset({ is_archived: false });
+      },
+      error: (error) => {
+        console.error('Error saving note:', error);
+      }
+    });
+    }
+
+  }
+
+  getNote(id: string) {
+    this.noteService.getNoteById(id).subscribe({
+      next: (data) => {
+        this.selectedNote = data;
+        const tagsString: string = data.tags.map(tag => tag.name).join(', ');
+        this.noteForm.patchValue(data);
+        this.noteForm.get('tags')?.patchValue(tagsString);
+      },
+      error: (err)=> {
+        console.log(err.message);
       }
     });
   }
