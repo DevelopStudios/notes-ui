@@ -19,6 +19,11 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
     return this.http.get<PaginatedNoteResponse>(this.apiUrl+'archived');
   }
 
+  archiveNote(id:string): Observable<any> {
+    console.log(true);
+    return this.http.patch<any>(this.apiUrl+id+'/', {is_archived:true});
+  }
+
   getTags(): Observable<PaginatedTagResponse> {
     return this.http.get<PaginatedTagResponse>(environment.apiUrl+'tags');
   }
@@ -45,7 +50,7 @@ export class NotesService {private apiUrl = environment.apiUrl + 'notes/';
     return this.http.put<Note>(`${this.apiUrl}${id}/`, note);
   }
 
-  deleteNote(id: number): Observable<any> {
+  deleteNote(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}${id}/`);
   }
 

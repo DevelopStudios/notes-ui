@@ -22,6 +22,7 @@
 
 .note-actions {
   width: 258px;
+  padding: 20px 35px 20px 20px;
 }
 
 @media (max-width: 768px) {
@@ -42,12 +43,12 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Pushes brand left, and search/actions right */
+  justify-content: space-between;
   padding: 10px 20px;
-  height: 60px; /* Standard height for a clean navbar */
+  height: 60px;
   background-color: #fff;
-  border-bottom: 1px solid #e0e0e0; /* Subtle separator line */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   .title {
     font-family: Inter;
     font-size: 24px;
@@ -55,7 +56,6 @@
   }
 }
 
-/* --- Branding/Logo --- */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -66,16 +66,15 @@
 }
 
 .logo {
-  height: 28px; /* Adjust logo size */
+  height: 28px;
   margin-right: 10px;
 }
 
-/* --- Search Bar Container --- */
 .navbar-search {
-  flex-grow: 1; /* Allows the search bar to take up available space */
-  max-width: 500px; /* Constrain the max width on large screens */
+  flex-grow: 1;
+  max-width: 500px;
   display: flex;
-  justify-content: center; /* Center the search bar within its container */
+  justify-content: center;
 }
 
 .search-container {
@@ -87,9 +86,9 @@
 
 .search-input {
   width: 100%;
-  padding: 10px 33px 10px 46px; /* Padding for the icon on the left */
+  padding: 10px 33px 10px 46px;
   border: 1px solid #CACFD8;
-  border-radius: 5px; /* Rounded corners like the design */
+  border-radius: 5px;
   font-size: 14px;
   font-family: Inter;
   letter-spacing: -0.2px;
@@ -107,12 +106,10 @@
   left: 15px;
   color: #888;
   font-size: 18px;
-  /* Adjust to ensure the icon is centered vertically */
   top: 57%;
   transform: translateY(-50%);
 }
 
-/* --- Action Icon --- */
 .navbar-actions {
   margin-left: 20px;
 }
@@ -133,14 +130,48 @@
 .settings-icon {
   font-size: 24px;
   color: #555;
-  display: block; /* Ensures icon is centered */
+  display: block;
 }
-
-/* --- Optional: Mobile Responsiveness (Adjusting search bar on small screens) --- */
 @media (max-width: 600px) {
   .navbar-search {
-    /* Hide search bar on very small screens to save space */
-    /* You would typically use a search icon that expands on click/tap */
     display: none; 
   }
+}
+
+.secondary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  max-width: 400px;
+}
+
+.btn-outline {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 9px 20px;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  color: #0E121B;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.btn-outline:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.btn-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  color: #111827;
+  flex-shrink: 0;
 }
