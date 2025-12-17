@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
 import { NoteForm } from '../components/note-form/note-form';
 import { map } from 'rxjs';
@@ -16,10 +16,10 @@ import { NotesService } from '../../core/services/notes';
 
 export class Dashboard implements OnInit {
   id:string = '';
-  
+  private noteService = inject(NotesService);
+  private router = inject(Router);
   constructor(
     private route: ActivatedRoute,
-    private noteService: NotesService
   ) { }
 
   ngOnInit(): void {
@@ -29,20 +29,15 @@ export class Dashboard implements OnInit {
   }
 
   deleteNote() {
-    console.log(this.id);
     this.noteService.deleteNote(this.id).subscribe({
       next:(value)=>{
-        console.log(value);
+        this.router.navigate(['/dashboard']);
       }
     })
   }
 
   archiveNote() {
-   this.noteService.archiveNote(this.id).subscribe({
-    next: (value)=> {
-      console.log(value);
-    }
-   })
+   this.noteService.archiveNote(this.id).subscribe(value => console.log(value));
   }
 
   onSearchChange($event: Event) {
