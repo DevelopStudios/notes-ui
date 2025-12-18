@@ -3,21 +3,22 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotesService } from '../../../core/services/notes';
 import { Note, NotePayload } from '../../../core/models/note.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-note-form',
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './note-form.html',
   styleUrl: './note-form.css',
 })
-export class NoteForm implements OnInit{
+export class NoteForm implements OnInit {
   private fb = inject(FormBuilder);
   private noteService = inject(NotesService);
   private route = inject(ActivatedRoute);
-  tags:string [] = [];
-  noteId:  string | null = null;
+  private router = inject(Router);
+  tags: string[] = [];
+  noteId: string | null = null;
   selectedNote: Note | null = null;
   noteForm: FormGroup = this.fb.group({
     id: [],
@@ -26,14 +27,14 @@ export class NoteForm implements OnInit{
     content: ['', Validators.required],
     is_archived: [false]
   });
-  constructor(){
-    
+  constructor() {
+
   }
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap(params => {
         this.noteId = params.get('id');
-        if(this.noteId){
+        if (this.noteId) {
           this.getNote(this.noteId);
         }
         return ''
@@ -42,7 +43,7 @@ export class NoteForm implements OnInit{
   }
 
   saveNote(): void {
-    let id  = this.noteForm.get('id')?.value;
+    let id = this.noteForm.get('id')?.value;
     if (this.noteForm.invalid) {
       console.error('Form is invalid. Cannot save note.');
       return;
@@ -57,26 +58,23 @@ export class NoteForm implements OnInit{
       is_archived: formValue.is_archived,
       tag_names: tagArray,
     };
-    if(id !== null){
-    this.noteService.updateNote(id, payload).subscribe({
-      next: (response) => {
-        console.log('Note updated successfully!', response);
-        this.noteForm.reset({ is_archived: false });
-      },
-      error: (error) => {
-        console.error('Error saving note:', error);
-      }
-    });
+    if (id !== null) {
+      this.noteService.updateNote(id, payload).subscribe({
+        next: (response) => {
+          this.noteForm.setValue(response);
+          console.log('Note updated successfully!', response);
+          this.noteForm.reset({ is_archived: false });
+        },
+        error: (error) => {
+          console.error('Error saving note:', error);
+        }
+      });
     } else {
-    this.noteService.createNote(payload).subscribe({
-      next: (response) => {
-        console.log('Note saved successfully!', response);
+      this.noteService.createNote(payload).subscribe(
+      (value => {
         this.noteForm.reset({ is_archived: false });
-      },
-      error: (error) => {
-        console.error('Error saving note:', error);
-      }
-    });
+        this.router.navigate(['dashboard']);
+      }));
     }
 
   }
@@ -89,10 +87,10 @@ export class NoteForm implements OnInit{
         this.noteForm.patchValue(data);
         this.noteForm.get('tags')?.patchValue(tagsString);
       },
-      error: (err)=> {
+      error: (err) => {
         console.log(err.message);
       }
     });
   }
-  
+
 }
