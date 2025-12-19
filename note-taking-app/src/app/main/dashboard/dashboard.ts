@@ -52,7 +52,7 @@ export class Dashboard implements OnInit {
   }
 
   checkNoteId() {
-    return this.id !== 'tags';
+    return this.id !== 'tags' && this.id !== undefined;
   }
 
 }
