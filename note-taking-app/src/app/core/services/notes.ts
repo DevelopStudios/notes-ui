@@ -86,8 +86,10 @@ export class NotesService {
     return this.http.get<PaginatedNoteResponse>(this.apiUrl);
   }
 
-  getArchivedNotes(): Observable<PaginatedNoteResponse> {
-    return this.http.get<PaginatedNoteResponse>(this.apiUrl + 'archived');
+  getArchivedNotes():void {
+    this.http.get<PaginatedNoteResponse>(this.apiUrl + 'archived').subscribe((value:any) => {
+      this.noteSubject.next(value);
+    });
   }
 
 }

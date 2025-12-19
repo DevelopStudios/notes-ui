@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
 import { NoteForm } from '../components/note-form/note-form';
-import { map } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { NotesService } from '../../core/services/notes';
 
 
@@ -24,7 +24,13 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     this.route?.url.pipe(map((value)=> {
-      this.id = value[1]?.path;
+      if(value[0]?.path === 'create') {
+        this.id = 'create';
+      } else if(value[0]?.path === 'tags') {
+        this.id = 'tags'
+      } else {
+        this.id = value[1]?.path;
+      }
     })).subscribe();
   }
 
@@ -43,6 +49,10 @@ export class Dashboard implements OnInit {
   onSearchChange($event: Event) {
     const query = (event?.target as HTMLInputElement).value;
     console.log(query);
+  }
+
+  checkNoteId() {
+    return this.id !== 'tags';
   }
 
 }

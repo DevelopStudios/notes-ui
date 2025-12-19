@@ -47,3 +47,12 @@ a.active {
     padding-bottom: 11px;
   }
 }
+
+.empty-entry {
+    padding: 10px;
+    background: #E0E4EA;
+    margin-top: 10px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 300;
+}

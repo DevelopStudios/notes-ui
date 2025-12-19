@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../../core/services/notes';
-import { map, Observable, Subscription, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Note } from '../../../core/models/note.model';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-note-list',
@@ -11,12 +11,14 @@ import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
   templateUrl: './note-list.html',
   styleUrl: './note-list.css',
 })
-export class NoteList implements OnInit, AfterViewInit {
+export class NoteList implements OnInit {
   currentStatus: string = 'all';
   collection$!: Observable<Note[]>;
+  partentUrl:string = '';
   constructor(
     private noteService: NotesService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public router: Router
   ) {
     this.collection$ = this.noteService.notes$;
   }
@@ -24,64 +26,21 @@ export class NoteList implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.route.url.subscribe(segments => {
       const path = segments[0]?.path || 'dashboard';
-
       if(path === 'archived') {
-        this.noteService.fetchNotesByQuery({is_acrhived: true});
+        this.partentUrl = 'archived';
+        this.noteService.getArchivedNotes();
       } else if(path === 'tags') {
+        this.partentUrl = 'dashboard';
         const tagId = segments[1]?.path;
         this.noteService.fetchNotesByQuery({tag_id: tagId});
-      } else {
+      } else if(path ==='create') {
+
+      }
+      else {
+        this.partentUrl = 'dashboard'
         this.noteService.refreshNotes();
       }
     });
-
-
-  //   this.route.url.subscribe(segments => {
-  //       const path = segments[0]?.path || 'dashboard';
-        
-  //       if (path === 'archived') {
-  //           // Create a method in service to specifically load archived into the subject
-  //           // OR use fetchNotesByQuery({ is_archived: true }) if your API supports it
-  //           // For now, let's say we call a refresh method:
-  //           this.noteService.fetchNotesByQuery({ is_archived: true }); 
-  //       } else if (path === 'tags') {
-  //            // Logic to fetch by tag
-  //            const tagId = segments[1]?.path;
-  //            this.noteService.fetchNotesByQuery({ tag_id: tagId });
-  //       } else {
-  //            // Default dashboard load
-  //            this.noteService.refreshNotes();
-  //       }
-  //   });
-  // }
-
-
-
-
-
-    // this.collection$ = this.route.url.pipe(
-    //   switchMap((segments) => {
-    //     const primaryPath = segments.length > 0 ? segments[0].path : 'dashboard';
-    //     if (primaryPath === 'archived') {
-    //       return this.noteService.getArchivedNotes().pipe(
-    //         map((response: any) => response)
-    //       );
-    //     }
-    //     if (primaryPath === 'tags') {
-    //       const tagId = segments[1].path;
-
-    //       return this.noteService.getNotesByTag(tagId).pipe(
-    //         map(response => response.results)
-    //       );
-    //     }
-    //     return this.noteService.getNotes().pipe(
-    //       map(response => response.results)
-    //     );
-    //   })
-    // );
-  }
-
-  ngAfterViewInit(): void {
   }
 
 }

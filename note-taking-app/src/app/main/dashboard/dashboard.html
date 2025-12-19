@@ -30,9 +30,12 @@
       </div>
       <app-note-list></app-note-list>
     </div>
-
   </div>
-  <div class="note-detail"><app-note-form></app-note-form></div>
+      @if (checkNoteId()) {
+          <div class="note-detail">
+
+    <app-note-form></app-note-form>
+  </div>
   <div class="note-actions">
     <div class="secondary-actions">
       <button type="button" class="btn-outline" (click)="archiveNote()">
@@ -59,4 +62,7 @@
       </button>
     </div>
   </div>
+    }
+
+  
 </div>
