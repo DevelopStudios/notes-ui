@@ -1,3 +1,9 @@
+
+@if (router.url === '/create') {
+    <div class="new_note">
+        Untitled Note
+    </div>
+}
 @if (collection$ | async; as collection) {
 @for(item of collection; track item) {
 <a [routerLink]="['/'+partentUrl+`/`,item.id]" routerLinkActive="active">

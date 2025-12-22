@@ -36,6 +36,14 @@
       border-bottom: unset;
       padding-bottom:11px;
 }
+.new_note {
+  font-size: 16px;
+  font-family: Inter;
+  padding: 10px;
+  background: #F3F5F8;
+  border-radius:10px;
+  font-weight: 400;
+}
 a {
     all: unset;
 }
