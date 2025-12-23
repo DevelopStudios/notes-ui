@@ -33,10 +33,17 @@ export class NoteForm implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap(params => {
-        this.noteId = params.get('id');
-        if (this.noteId) {
-          this.getNote(this.noteId);
+        if(params.get('noteId') !== null) {
+          let id = params.get('noteId');
+          let string = id?.toString();
+          this.getNote(string);
+        } else {
+          this.noteId = params.get('id');
+          if (this.noteId) {
+            this.getNote(this.noteId);
+          }
         }
+        
         return ''
       })
     ).subscribe();
@@ -79,7 +86,7 @@ export class NoteForm implements OnInit {
 
   }
 
-  getNote(id: string) {
+  getNote(id: any) {
     this.noteService.getNoteById(id).subscribe({
       next: (data) => {
         this.selectedNote = data;

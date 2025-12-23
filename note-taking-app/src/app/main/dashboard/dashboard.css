@@ -25,6 +25,10 @@
   padding: 20px 35px 20px 20px;
 }
 
+span.tag-next {
+    color: #525866;
+}
+
 @media (max-width: 768px) {
   .notes-layout {
     display: block;

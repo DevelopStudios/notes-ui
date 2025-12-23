@@ -30,7 +30,7 @@ export class NoteList implements OnInit {
         this.partentUrl = 'archived';
         this.noteService.getArchivedNotes();
       } else if(path === 'tags') {
-        this.partentUrl = 'dashboard';
+        this.partentUrl = `${segments[0].path}/${segments[1].path}/`
         const tagId = segments[1]?.path;
         this.noteService.fetchNotesByQuery({tag_id: tagId});
       } else if(path ==='create') {

@@ -34,6 +34,11 @@ export const mainRoutes: Routes = [
                 component: Dashboard,
                 title: 'Tags'
             },
+              {
+                path: 'tags/:id/:noteId',
+                component: Dashboard,
+                title: 'Tags'
+            },
             {
                 path: 'create',
                 component: Dashboard,

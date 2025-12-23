@@ -1,7 +1,13 @@
 <div class="navbar">
+  @if(id !== 'tags'){
   <div class="title">
     All Notes
   </div>
+  } @else {
+  <div class="title">
+    <span class="tag-next">Notes Tagged:</span> {{tagName}}
+  </div>
+  }
   <div class="navbar-brand">
     <div class="navbar-search">
       <div class="search-container">
