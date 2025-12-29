@@ -31,6 +31,7 @@ export class NotesService {
     });
   }
 
+
   // Helper Function
   fetchNotesByQuery(params: any): void {
     this.http.get<PaginatedNoteResponse>(this.apiUrl, {params}).subscribe(res => {

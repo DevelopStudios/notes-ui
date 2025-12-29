@@ -70,11 +70,19 @@ export class Dashboard implements OnInit {
   }
 
   archiveNote() {
-   this.noteService.archiveNote(this.id).subscribe(value => console.log(value));
+   this.noteService.archiveNote(this.id).subscribe({
+    next: ()=> {
+      this.noteService.refreshNotes();
+    }
+   });
   }
 
   restoreNote() {
-    this.noteService.RestoreNote(this.id).subscribe(value => console.log(value));
+    this.noteService.RestoreNote(this.id).subscribe({
+      next: ()=> {
+        this.noteService.getArchivedNotes();
+      }
+    });
   }
 
   onSearchChange($event: Event) {
