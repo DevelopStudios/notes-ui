@@ -44,26 +44,21 @@
   </div>
   <div class="note-actions">
     <div class="secondary-actions">
-      <button type="button" class="btn-outline" (click)="archiveNote()">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <rect width="20" height="5" x="2" y="3" rx="1" />
-          <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
-          <path d="m9.5 13 2.5 2.5 2.5-2.5" />
-          <path d="M12 10v5" />
-        </svg>
+      @if(activeRoute === 'archived'){
+        <button type="button" class="btn-outline" (click)="restoreNote()">
+        <img src="/assets/Refresh left.svg" class="restore">
+        Restore Note
+      </button>
+      } @else {
+        <button type="button" class="btn-outline" (click)="archiveNote()">
+        <img src="/assets/Archive.svg" class="restore">
         Archive Note
       </button>
+      }
+      
 
       <button type="button" class="btn-outline" (click)="deleteNote()">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 6h18" />
-          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-          <line x1="10" x2="10" y1="11" y2="17" />
-          <line x1="14" x2="14" y1="11" y2="17" />
-        </svg>
+        <img class="archive" src="/assets/Delete.svg">
         Delete Note
       </button>
     </div>

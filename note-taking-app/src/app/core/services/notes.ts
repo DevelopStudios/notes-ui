@@ -43,6 +43,10 @@ export class NotesService {
     return this.http.patch<any>(this.apiUrl + id + '/', { is_archived: true });
   }
 
+  RestoreNote(id: string): Observable<any> {
+    return this.http.patch<any>(this.apiUrl + id + '/', { is_archived: false });
+  }
+
   getTags(): Observable<PaginatedTagResponse> {
     return this.http.get<PaginatedTagResponse>(environment.apiUrl + 'tags');
   }

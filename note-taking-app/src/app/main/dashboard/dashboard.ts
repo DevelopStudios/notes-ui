@@ -20,6 +20,7 @@ export class Dashboard implements OnInit {
   tages$: Observable<Tag[]>;
   tagList:any;
   tagName: string = '';
+  activeRoute: string = '';
   private noteService = inject(NotesService);
   private router = inject(Router);
   constructor(
@@ -33,6 +34,7 @@ export class Dashboard implements OnInit {
       this.tagList = value;
     });
     this.route?.url.pipe(map((value)=> {
+      this.activeRoute = value[0]?.path;
       if(value[0]?.path === 'create') {
         this.id = 'create';
       } else if(value[0]?.path === 'tags') {
@@ -69,6 +71,10 @@ export class Dashboard implements OnInit {
 
   archiveNote() {
    this.noteService.archiveNote(this.id).subscribe(value => console.log(value));
+  }
+
+  restoreNote() {
+    this.noteService.RestoreNote(this.id).subscribe(value => console.log(value));
   }
 
   onSearchChange($event: Event) {

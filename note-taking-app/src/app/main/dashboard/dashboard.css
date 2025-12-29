@@ -28,6 +28,9 @@
 span.tag-next {
     color: #525866;
 }
+img.restore, img.archive {
+  margin-right: 10px;
+}
 
 @media (max-width: 768px) {
   .notes-layout {
