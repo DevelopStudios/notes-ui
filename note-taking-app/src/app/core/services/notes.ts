@@ -3,16 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Note, NotePayload, PaginatedNoteResponse, PaginatedTagResponse, Tag } from '../models/note.model';
-import { response } from 'express';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
+  private searchSubject = new BehaviorSubject<string>('');
+  searchTerm$ = this.searchSubject.asObservable();
   private apiUrl = environment.apiUrl + 'notes/';
   private tagsUrl = environment.apiUrl + 'tags/';
   private noteSubject = new BehaviorSubject<Note[]>([]);
   private tagSubject = new BehaviorSubject<Tag[]>([]);
+
 
   tags$ = this.tagSubject.asObservable();
   notes$ = this.noteSubject.asObservable();
@@ -23,6 +26,11 @@ export class NotesService {
     this.http.get<PaginatedNoteResponse>(this.apiUrl).subscribe(response => {
       this.noteSubject.next(response.results);
   });
+  }
+
+    
+  setSearchTerm(term: string) {
+    this.searchSubject.next(term);
   }
 
   refreshTags():void {

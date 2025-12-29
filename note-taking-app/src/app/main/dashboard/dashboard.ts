@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
 import { NoteForm } from '../components/note-form/note-form';
-import { map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { NotesService } from '../../core/services/notes';
 import { Tag } from '../../core/models/note.model';
 
@@ -87,9 +87,9 @@ export class Dashboard implements OnInit {
     });
   }
 
-  onSearchChange($event: Event) {
-    const query = (event?.target as HTMLInputElement).value;
-    console.log(query);
+  onSearchChange(event: Event) {
+    const query = (event.target as HTMLInputElement).value;
+    this.noteService.setSearchTerm(query);
   }
 
   checkNoteId() {
