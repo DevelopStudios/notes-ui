@@ -73,6 +73,7 @@ export class Dashboard implements OnInit {
    this.noteService.archiveNote(this.id).subscribe({
     next: ()=> {
       this.noteService.refreshNotes();
+      this.noteService.refreshTags();
     }
    });
   }
@@ -81,6 +82,7 @@ export class Dashboard implements OnInit {
     this.noteService.RestoreNote(this.id).subscribe({
       next: ()=> {
         this.noteService.getArchivedNotes();
+        this.noteService.refreshTags();
       }
     });
   }
