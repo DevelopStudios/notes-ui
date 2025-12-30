@@ -182,3 +182,103 @@ img.restore, img.archive {
   color: #111827;
   flex-shrink: 0;
 }
+
+.modal-text {
+  color: #4B5563;
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-danger {
+  background-color: #EF4444;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #DC2626;
+}
+
+
+.delete-header {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Spacing between icon and title */
+  margin-bottom: 16px;
+}
+
+/* The light gray box around the icon */
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: #F3F4F6; /* Light gray background */
+  border-radius: 12px; /* Soft square look */
+  color: #374151; /* Dark gray icon color */
+}
+
+.delete-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700; /* Bold title */
+  color: #111827;
+}
+
+/* Body Text */
+.delete-body {
+  margin: 0 0 32px 0; /* Lots of space below text */
+  color: #4B5563; /* Medium gray text */
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Actions Footer */
+.delete-actions {
+  display: flex;
+  justify-content: flex-end; /* Push buttons to the right */
+  gap: 12px;
+}
+
+/* Common Button Styles */
+.delete-actions button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Cancel Button (Gray) */
+.btn-cancel {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background-color: #E5E7EB;
+}
+
+/* Delete Button (Red) */
+.btn-delete {
+  background-color: #EF4444; /* Brand Red */
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #DC2626;
+}

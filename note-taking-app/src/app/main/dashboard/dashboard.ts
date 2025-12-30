@@ -6,11 +6,13 @@ import { NoteForm } from '../components/note-form/note-form';
 import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { NotesService } from '../../core/services/notes';
 import { Tag } from '../../core/models/note.model';
+import { ModalComponent } from "../../core/modals/modal";
+import { ToastService } from '../../core/services/toast';
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterModule, NoteList, NoteForm],
+  imports: [CommonModule, RouterModule, NoteList, NoteForm, ModalComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -21,8 +23,11 @@ export class Dashboard implements OnInit {
   tagList:any;
   tagName: string = '';
   activeRoute: string = '';
+  isDeleteModalOpen = false;
+  isArchiveModalOpen = false;
   private noteService = inject(NotesService);
   private router = inject(Router);
+  private toastService = inject(ToastService);
   constructor(
     private route: ActivatedRoute,
   ) { 
@@ -53,9 +58,26 @@ export class Dashboard implements OnInit {
     })).subscribe();
   }
 
+  //Modal
+  confirmDelete() {
+    this.isArchiveModalOpen = false;
+    this.isDeleteModalOpen = true;
+  }
+
+  confirmArchive() {
+    this.isDeleteModalOpen = false;
+    this.isArchiveModalOpen = true;
+  }
+
+  closeModal() {
+    this.isDeleteModalOpen = false;
+    this.isArchiveModalOpen = false;
+  }
+
   deleteNote() {
     this.noteService.deleteNote(this.id).subscribe({
       next:(value)=>{
+        this.isDeleteModalOpen = false;
         this.router.navigate(['/dashboard']);
       }
     })
@@ -72,8 +94,14 @@ export class Dashboard implements OnInit {
   archiveNote() {
    this.noteService.archiveNote(this.id).subscribe({
     next: ()=> {
+      this.isArchiveModalOpen = false;
       this.noteService.refreshNotes();
       this.noteService.refreshTags();
+      this.toastService.show(
+        'Note archived.',       // Message
+        'Archived Notes',       // Link Text
+        '/archived'             // Link Route
+      );
     }
    });
   }

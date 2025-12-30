@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { BottomNav } from '../components/bottom-nav/bottom-nav';
+import { ToastComponent } from "../../core/modals/toast";
 
 @Component({
   selector: 'app-shell',
-  imports: [CommonModule, RouterModule, Sidebar, BottomNav],
+  imports: [CommonModule, RouterModule, Sidebar, BottomNav, ToastComponent],
   templateUrl: './shell.html',
   styleUrl: './shell.css',
 })

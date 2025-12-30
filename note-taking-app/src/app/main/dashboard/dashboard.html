@@ -50,14 +50,14 @@
         Restore Note
       </button>
       } @else {
-        <button type="button" class="btn-outline" (click)="archiveNote()">
+        <button type="button" class="btn-outline" (click)="confirmArchive()">
         <img src="/assets/Archive.svg" class="restore">
         Archive Note
       </button>
       }
       
 
-      <button type="button" class="btn-outline" (click)="deleteNote()">
+      <button type="button" class="btn-outline" (click)="confirmDelete()">
         <img class="archive" src="/assets/Delete.svg">
         Delete Note
       </button>
@@ -67,3 +67,56 @@
 
   
 </div>
+
+
+@if(isDeleteModalOpen) {
+  <app-modal (close)="closeModal()">
+    
+    <div class="delete-header">
+       <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+      </div>
+      <h3>Delete Note</h3>
+    </div>
+
+    <p class="delete-body">
+      Are you sure you want to permanently delete this note? This action cannot be undone.
+    </p>
+
+    <div class="delete-actions">
+      <button class="btn-cancel" (click)="closeModal()">
+        Cancel
+      </button>
+      <button class="btn-delete" (click)="deleteNote()">
+        Delete Note
+      </button>
+    </div>
+
+  </app-modal>
+}
+
+@if(isArchiveModalOpen) {
+  <app-modal (close)="closeModal()">
+    
+    <div class="delete-header">
+       <div class="icon-wrapper">
+        <img src="/assets/Archive.svg" alt="">
+      </div>
+      <h3>Archive Note</h3>
+    </div>
+
+    <p class="delete-body">
+      Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime.
+    </p>
+
+    <div class="delete-actions">
+      <button class="btn-cancel" (click)="closeModal()">
+        Cancel
+      </button>
+      <button class="btn-archive" (click)="archiveNote()">
+        Archive Note
+      </button>
+    </div>
+
+  </app-modal>
+}
