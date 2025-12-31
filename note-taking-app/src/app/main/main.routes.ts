@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { Shell } from "./shell/shell";
 import { authGuard } from "../core/guards/auth-guard";
 import { Dashboard } from "./dashboard/dashboard";
+import { NoteForm } from "./components/note-form/note-form";
 
 export const mainRoutes: Routes = [
     {
@@ -12,32 +13,26 @@ export const mainRoutes: Routes = [
             {
                 path: 'dashboard',
                 component: Dashboard,
-                title: 'Dashboard'
-            },
-            {
-                path: 'dashboard/:id',
-                component: Dashboard,
-                title: 'Dashboard'
+                title: 'Dashboard',
+                children: [
+                    { path: ':id', component: NoteForm }
+                ]
             },
             {
                 path: 'archived',
                 component: Dashboard,
-                title: 'Archived'
-            },
-            {
-                path: 'archived/:id',
-                component: Dashboard,
-                title: 'Archived'
+                title: 'Archived',
+                children: [
+                    { path: ':id', component: NoteForm }
+                ]
             },
             {
                 path: 'tags/:id',
                 component: Dashboard,
-                title: 'Tags'
-            },
-              {
-                path: 'tags/:id/:noteId',
-                component: Dashboard,
-                title: 'Tags'
+                title: 'Tags',
+                children: [
+                    { path: ':noteId', component: NoteForm }
+                ]
             },
             {
                 path: 'create',

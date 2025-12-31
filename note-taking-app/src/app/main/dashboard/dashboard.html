@@ -37,10 +37,9 @@
       <app-note-list></app-note-list>
     </div>
   </div>
-      @if (checkNoteId()) {
+   
           <div class="note-detail">
-
-    <app-note-form></app-note-form>
+            <router-outlet></router-outlet>
   </div>
   <div class="note-actions">
     <div class="secondary-actions">
@@ -63,7 +62,7 @@
       </button>
     </div>
   </div>
-    }
+    
 
   
 </div>

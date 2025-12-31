@@ -4,6 +4,7 @@
         Untitled Note
     </div>
 }
+
 @if (filteredCollection$ | async; as collection) {
 @for(item of collection; track item) {
 <a [routerLink]="['/'+partentUrl+`/`,item.id]" routerLinkActive="active">
