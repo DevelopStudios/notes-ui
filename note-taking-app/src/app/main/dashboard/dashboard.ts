@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
 import { NoteForm } from '../components/note-form/note-form';
-import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
+import {map, Observable } from 'rxjs';
 import { NotesService } from '../../core/services/notes';
 import { Tag } from '../../core/models/note.model';
 import { ModalComponent } from "../../core/modals/modal";
@@ -12,7 +12,7 @@ import { ToastService } from '../../core/services/toast';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterModule, NoteList, NoteForm, ModalComponent],
+  imports: [CommonModule, RouterModule, NoteList, ModalComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -25,6 +25,7 @@ export class Dashboard implements OnInit {
   activeRoute: string = '';
   isDeleteModalOpen = false;
   isArchiveModalOpen = false;
+  formId:any = undefined;
   private noteService = inject(NotesService);
   private router = inject(Router);
   private toastService = inject(ToastService);
@@ -38,6 +39,7 @@ export class Dashboard implements OnInit {
     this.tages$.subscribe(value => {
       this.tagList = value;
     });
+
     this.route?.url.pipe(map((value)=> {
       this.activeRoute = value[0]?.path;
       if(value[0]?.path === 'create') {
@@ -56,6 +58,10 @@ export class Dashboard implements OnInit {
         this.id = value[1]?.path;
       }
     })).subscribe();
+
+    this.noteService.formActive.subscribe((value:boolean) => {
+      this.formId = value;
+    });
   }
 
   //Modal
@@ -75,10 +81,11 @@ export class Dashboard implements OnInit {
   }
 
   deleteNote() {
-    this.noteService.deleteNote(this.id).subscribe({
-      next:(value)=>{
+    this.noteService.deleteNote(this.formId).subscribe({
+      next:(value)=> {
         this.isDeleteModalOpen = false;
         this.router.navigate(['/dashboard']);
+        this.noteService.refreshNotes();
       }
     })
   }
@@ -92,7 +99,7 @@ export class Dashboard implements OnInit {
   }
 
   archiveNote() {
-   this.noteService.archiveNote(this.id).subscribe({
+   this.noteService.archiveNote(this.formId).subscribe({
     next: ()=> {
       this.isArchiveModalOpen = false;
       this.noteService.refreshNotes();
@@ -107,7 +114,7 @@ export class Dashboard implements OnInit {
   }
 
   restoreNote() {
-    this.noteService.RestoreNote(this.id).subscribe({
+    this.noteService.RestoreNote(this.formId).subscribe({
       next: ()=> {
         this.noteService.getArchivedNotes();
         this.noteService.refreshTags();

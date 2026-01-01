@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotesService } from '../../../core/services/notes';
 import { Note, NotePayload } from '../../../core/models/note.model';
@@ -12,7 +12,7 @@ import { switchMap } from 'rxjs';
   templateUrl: './note-form.html',
   styleUrl: './note-form.css',
 })
-export class NoteForm implements OnInit {
+export class NoteForm implements OnInit,OnDestroy {
   private fb = inject(FormBuilder);
   private noteService = inject(NotesService);
   private route = inject(ActivatedRoute);
@@ -27,18 +27,24 @@ export class NoteForm implements OnInit {
     content: ['', Validators.required],
     is_archived: [false]
   });
-  constructor() {
+  constructor() {}
 
+  ngOnDestroy(): void {
+    this.noteService.formActive.next(null);
   }
+
   ngOnInit(): void {
+
     this.route.paramMap.pipe(
       switchMap(params => {
         if(params.get('noteId') !== null) {
           let id = params.get('noteId');
+          this.noteService.formActive.next(id);
           let string = id?.toString();
           this.getNote(string);
         } else {
           this.noteId = params.get('id');
+          this.noteService.formActive.next(this.noteId);
           if (this.noteId) {
             this.getNote(this.noteId);
           }
@@ -67,10 +73,14 @@ export class NoteForm implements OnInit {
     };
     if (id !== null) {
       this.noteService.updateNote(id, payload).subscribe({
-        next: (response) => {
+        next: (response:any) => {
+          delete response.user;
+          delete response.created_at;
+          delete response.updated_at;
           this.noteForm.setValue(response);
           console.log('Note updated successfully!', response);
           this.noteForm.reset({ is_archived: false });
+          this.router.navigate(['./dashboard']);
         },
         error: (error) => {
           console.error('Error saving note:', error);
@@ -80,10 +90,14 @@ export class NoteForm implements OnInit {
       this.noteService.createNote(payload).subscribe(
       (value => {
         this.noteForm.reset({ is_archived: false });
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['./dashboard']);
       }));
     }
 
+  }
+
+  cancelNote() {
+        this.router.navigate(['./dashboard']);   
   }
 
   getNote(id: any) {

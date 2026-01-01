@@ -37,7 +37,10 @@ export const mainRoutes: Routes = [
             {
                 path: 'create',
                 component: Dashboard,
-                title: 'Create Note'
+                title: 'Create Note',
+                children: [
+                    { path: '', component: NoteForm }
+                ]
             },
             {path:'', redirectTo:'dashboard', pathMatch:'full'},
         ]

@@ -37,34 +37,32 @@
       <app-note-list></app-note-list>
     </div>
   </div>
-   
           <div class="note-detail">
             <router-outlet></router-outlet>
-  </div>
+  </div>    
   <div class="note-actions">
-    <div class="secondary-actions">
-      @if(activeRoute === 'archived'){
-        <button type="button" class="btn-outline" (click)="restoreNote()">
-        <img src="/assets/Refresh left.svg" class="restore">
-        Restore Note
-      </button>
-      } @else {
-        <button type="button" class="btn-outline" (click)="confirmArchive()">
-        <img src="/assets/Archive.svg" class="restore">
-        Archive Note
-      </button>
-      }
-      
+     @if(formId){
+      <div class="secondary-actions">
+        @if(activeRoute === 'archived'){
+          <button type="button" class="btn-outline" (click)="restoreNote()">
+          <img src="/assets/Refresh left.svg" class="restore">
+          Restore Note
+        </button>
+        } @else {
+          <button type="button" class="btn-outline" (click)="confirmArchive()">
+          <img src="/assets/Archive.svg" class="restore">
+          Archive Note
+        </button>
+        }
+        
 
-      <button type="button" class="btn-outline" (click)="confirmDelete()">
-        <img class="archive" src="/assets/Delete.svg">
-        Delete Note
-      </button>
+        <button type="button" class="btn-outline" (click)="confirmDelete()">
+          <img class="archive" src="/assets/Delete.svg">
+          Delete Note
+        </button>
+      </div>
+          }
     </div>
-  </div>
-    
-
-  
 </div>
 
 

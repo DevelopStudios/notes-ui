@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Note, NotePayload, PaginatedNoteResponse, PaginatedTagResponse, Tag } from '../models/note.model';
 
@@ -15,6 +15,7 @@ export class NotesService {
   private tagsUrl = environment.apiUrl + 'tags/';
   private noteSubject = new BehaviorSubject<Note[]>([]);
   private tagSubject = new BehaviorSubject<Tag[]>([]);
+  public formActive = new Subject<any>();
 
 
   tags$ = this.tagSubject.asObservable();
