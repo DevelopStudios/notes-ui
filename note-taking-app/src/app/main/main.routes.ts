@@ -42,6 +42,11 @@ export const mainRoutes: Routes = [
                     { path: '', component: NoteForm }
                 ]
             },
+            {
+                path: 'settings',
+                component: Dashboard,
+                title: 'Settings'
+            },
             {path:'', redirectTo:'dashboard', pathMatch:'full'},
         ]
     }

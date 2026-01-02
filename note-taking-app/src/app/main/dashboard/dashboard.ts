@@ -2,17 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
-import { NoteForm } from '../components/note-form/note-form';
 import {map, Observable } from 'rxjs';
 import { NotesService } from '../../core/services/notes';
 import { Tag } from '../../core/models/note.model';
 import { ModalComponent } from "../../core/modals/modal";
 import { ToastService } from '../../core/services/toast';
+import { UserSettings } from "../components/user-settings/user-settings";
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterModule, NoteList, ModalComponent],
+  imports: [CommonModule, RouterModule, NoteList, ModalComponent, UserSettings],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -45,7 +45,6 @@ export class Dashboard implements OnInit {
       if(value[0]?.path === 'create') {
         this.id = 'create';
       } else if(value[0]?.path === 'tags') {
-        
         if(value[2]){
           this.id = 'tags/note'
         } else {
@@ -58,7 +57,6 @@ export class Dashboard implements OnInit {
         this.id = value[1]?.path;
       }
     })).subscribe();
-
     this.noteService.formActive.subscribe((value:boolean) => {
       this.formId = value;
     });
@@ -68,6 +66,10 @@ export class Dashboard implements OnInit {
   confirmDelete() {
     this.isArchiveModalOpen = false;
     this.isDeleteModalOpen = true;
+  }
+
+  toggleUserSettings(){
+    this.router.navigate(['./settings'])
   }
 
   confirmArchive() {

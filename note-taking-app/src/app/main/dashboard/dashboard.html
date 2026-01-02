@@ -20,7 +20,7 @@
     </div>
 
     <div class="navbar-actions">
-      <button class="icon-button" aria-label="Settings and Profile">
+      <button class="icon-button" aria-label="Settings and Profile" (click)="toggleUserSettings()">
         <img src="/assets/Setting.svg" alt="Settings">
       </button>
     </div>
@@ -29,12 +29,17 @@
 <div class="notes-layout">
   <div class="notes-sidebar">
     <div class="inner-container">
+
+      @if(activeRoute !== 'settings') {
       <div class="button-container">
         <button class="add-button" [routerLink]="['/create']">
           + Create New Note
         </button>
       </div>
-      <app-note-list></app-note-list>
+        <app-note-list></app-note-list>
+      } @else if(activeRoute === 'settings') {
+        <app-user-settings></app-user-settings>
+      }
     </div>
   </div>
           <div class="note-detail">
