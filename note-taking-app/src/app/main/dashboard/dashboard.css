@@ -31,19 +31,58 @@ span.tag-next {
 img.restore, img.archive {
   margin-right: 10px;
 }
-
+.border {
+  display: none !important;
+}
+.title-mobile {
+    font-family: Inter;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+}
 @media (max-width: 768px) {
+  .button-container {
+    display: none;
+  }
   .notes-layout {
     display: block;
   }
-
+  .title {
+    display: none;
+  } 
   .notes-sidebar {
     width: 100%;
     height: 100%;
   }
-
+  .search-container {
+    display: none !important;
+  }
+  .note-actions {
+    display: none;
+  }
+  .navbar-actions {
+    display: none !important;
+  }
+  .navbar {
+    display: block !important;
+    height: 45px !important;
+    width: 95% !important;
+  }
   .note-detail {
-    display: none; 
+    background-color: #fff !important;
+  }
+  .editor-header {
+    display: flex !important;
+  }
+  .border {
+    display: block !important;
+    width: 100%;
+    height: 1px;
+    background: #E0E4EA;
+    margin-top: 5px;
+  }
+  .navbar {
+    width: 100%;
   }
 }
 
@@ -54,8 +93,8 @@ img.restore, img.archive {
   padding: 10px 20px;
   height: 60px;
   background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+
   .title {
     font-family: Inter;
     font-size: 24px;
@@ -138,11 +177,6 @@ img.restore, img.archive {
   font-size: 24px;
   color: #555;
   display: block;
-}
-@media (max-width: 600px) {
-  .navbar-search {
-    display: none; 
-  }
 }
 
 .secondary-actions {
@@ -281,4 +315,82 @@ img.restore, img.archive {
 
 .btn-delete:hover {
   background-color: #DC2626;
+}
+
+
+.notes-sidebar.hide {
+    display: none;
+}
+
+/* =========================================
+   Editor Header (Top Bar)
+   ========================================= */
+.editor-header {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--navbar-height); /* Keeps consistent 60px height */
+  background-color: var(--color-white);
+}
+
+/* --- Back Button --- */
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* 8px space between icon and text */
+  background: none;
+  border: none;
+  color: var(--color-gray-600);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 0.5rem 0.5rem 0; /* Align left edge */
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--color-gray-900);
+  }
+
+  svg {
+    display: block; /* Removes tiny layout shifts */
+  }
+}
+
+/* --- Right Side Actions --- */
+.editor-actions {
+  display: flex;
+  align-items: center;
+  width:68%;
+}
+
+/* Shared Text Button Style */
+.btn-text {
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+/* Specific: Cancel (Gray) */
+.btn-cancel {
+  color: var(--color-gray-600);
+
+  &:hover {
+    color: var(--color-gray-800);
+  }
+}
+
+/* Specific: Save (Blue) */
+.btn-save {
+  color: #3B82F6; /* Bright Blue */
+  font-weight: 600; /* Slightly bolder for emphasis */
+
+  &:hover {
+    color: #2563EB; /* Darker Blue on hover */
+  }
 }

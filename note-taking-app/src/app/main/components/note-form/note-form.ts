@@ -100,18 +100,20 @@ export class NoteForm implements OnInit,OnDestroy {
         this.router.navigate(['./dashboard']);   
   }
 
-  getNote(id: any) {
-    this.noteService.getNoteById(id).subscribe({
-      next: (data) => {
+ getNote(id: any) {
+  this.noteService.getNoteById(id).subscribe({
+    next: (data) => {
+      setTimeout(() => {
         this.selectedNote = data;
-        const tagsString: string = data.tags.map(tag => tag.name).join(', ');
+        const tagsString: string = data.tags ? data.tags.map((tag: any) => tag.name).join(', ') : '';
         this.noteForm.patchValue(data);
         this.noteForm.get('tags')?.patchValue(tagsString);
-      },
-      error: (err) => {
-        console.log(err.message);
-      }
-    });
-  }
+      }, 0);
+    },
+    error: (err) => {
+      console.log(err.message);
+    }
+  });
+}
 
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
 import {map, Observable } from 'rxjs';
@@ -26,9 +26,16 @@ export class Dashboard implements OnInit {
   isDeleteModalOpen = false;
   isArchiveModalOpen = false;
   formId:any = undefined;
+
+  viewportWidth: number = 0;
+  currentParams: any = {};
+  hideSidebar:boolean = false;
+
+
   private noteService = inject(NotesService);
   private router = inject(Router);
   private toastService = inject(ToastService);
+
   constructor(
     private route: ActivatedRoute,
   ) { 
@@ -36,30 +43,54 @@ export class Dashboard implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tages$.subscribe(value => {
+   this.tages$.subscribe(value => {
+    setTimeout(() => {
       this.tagList = value;
-    });
+    }, 0);
+  });
 
-    this.route?.url.pipe(map((value)=> {
-      this.activeRoute = value[0]?.path;
-      if(value[0]?.path === 'create') {
-        this.id = 'create';
-      } else if(value[0]?.path === 'tags') {
-        if(value[2]){
-          this.id = 'tags/note'
-        } else {
-          if(value[1]?.path) {
-            this.findActiveTag(value[1]?.path);
+    this.route?.url.pipe(map((value) => {
+      // FIX 1: Wrap Route logic in setTimeout to prevent NG0100 error
+      setTimeout(() => {
+        this.checkViewPort();
+        this.activeRoute = value[0]?.path;
+        
+        if (value[0]?.path === 'create') {
+          this.id = 'create';
+        } else if (value[0]?.path === 'tags') {
+          if (value[2]) {
+            this.id = 'tags/note'
+          } else {
+            if (value[1]?.path) {
+              this.findActiveTag(value[1]?.path);
+            }
+            this.id = 'tags'
           }
-          this.id = 'tags'
+        } else {
+          this.id = value[1]?.path;
         }
-      } else {
-        this.id = value[1]?.path;
-      }
+      }, 0);
     })).subscribe();
-    this.noteService.formActive.subscribe((value:boolean) => {
+    this.noteService.formActive.subscribe((value: boolean) => {
+    setTimeout(() => {
       this.formId = value;
-    });
+    }, 0);
+  });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any){
+    this.checkViewPort();
+  }
+
+  checkViewPort() {
+    this.viewportWidth = window.innerWidth;
+    const params = this.route?.snapshot?.children[0]?.params;
+    if(this.viewportWidth < 770 && params !== undefined) {
+      this.hideSidebar = true;
+    } else {
+      this.hideSidebar = false;
+    }
   }
 
   //Modal
@@ -68,7 +99,8 @@ export class Dashboard implements OnInit {
     this.isDeleteModalOpen = true;
   }
 
-  toggleUserSettings(){
+  toggleUserSettings() {
+    console.log(true);
     this.router.navigate(['./settings'])
   }
 
@@ -97,7 +129,7 @@ export class Dashboard implements OnInit {
     let found = this.tagList.filter((value:Tag) => {
       return value.id === idNum;
     });
-    this.tagName = found[0].name;
+    this.tagName = found[0]?.name;
   }
 
   archiveNote() {
@@ -122,6 +154,10 @@ export class Dashboard implements OnInit {
         this.noteService.refreshTags();
       }
     });
+  }
+
+  goBack() {
+    this.router.navigate(['./dashboard']);
   }
 
   onSearchChange(event: Event) {

@@ -8,6 +8,31 @@
     <span class="tag-next">Notes Tagged:</span> {{tagName}}
   </div>
   }
+  @if(formId && viewportWidth < 770) {
+    <div class="editor-header">
+    <button class="btn-back" (click)="goBack()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Go Back
+    </button>
+    <div class="editor-actions">
+      <button class="btn-text btn-cancel">Cancel</button>
+      <button class="btn-text btn-save">Save Note</button>
+    </div>
+  </div>
+  <div class="border"></div>
+  } @else if(viewportWidth < 770){
+    @if(id !== 'tags'){
+      <div class="title-mobile">
+        All Notes
+      </div>
+      } @else {
+      <div class="title">
+        <span class="tag-next">Notes Tagged:</span> {{tagName}}
+      </div>
+  }
+  }
   <div class="navbar-brand">
     <div class="navbar-search">
       <div class="search-container">
@@ -27,7 +52,7 @@
   </div>
 </div>
 <div class="notes-layout">
-  <div class="notes-sidebar">
+  <div class="notes-sidebar" [ngClass]="{'hide' : hideSidebar}">
     <div class="inner-container">
 
       @if(activeRoute !== 'settings') {

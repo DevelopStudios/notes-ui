@@ -1,22 +1,19 @@
-import { Component, inject } from '@angular/core';
-import { NotesService } from '../../../core/services/notes';
-import { Router } from 'express';
+import { CommonModule } from '@angular/common';
+import { Component} from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-settings',
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './user-settings.html',
   styleUrl: './user-settings.css',
 })
+
 export class UserSettings {
-  private notesService = inject(NotesService)
-  private router = inject(Router)
+constructor(private router: Router){}
   userLogout() {
-    console.log(true);
-    // localStorage.removeItem('token'); 
-    // this.router.navigate(['/login']);
-    // this.notesService.userLogout().subscribe(value => {
-    //   console.log(value);
-    // });
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    this.router.navigate(['./auth/login']);
   }
 }

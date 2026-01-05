@@ -169,3 +169,12 @@
 .metadata-row img.icon {
     margin-right: 8px
 }
+
+@media (max-width: 768px) {
+    .action-buttons {
+    display: none !important;
+  }
+  .note-body {
+    height: 63vh;
+  }
+}

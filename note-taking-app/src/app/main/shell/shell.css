@@ -21,8 +21,13 @@
 .mobile-nav {
   display: none;
 }
-
+a.mobile-fab {
+  display: none !important;
+}
 @media (max-width: 768px) {
+  a.mobile-fab {
+    display: flex !important;
+  }
   .app-layout {
     flex-direction: column;
   }
