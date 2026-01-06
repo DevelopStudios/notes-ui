@@ -2,7 +2,15 @@
 .input-group.title-input {
   margin-bottom: 20px; 
 }
-
+.note-editor-container {
+  display: flex;       /* Turn on Flexbox */
+  flex-direction: column; /* Stack items vertically */
+  height: 100%;        /* Force it to fill the parent container */
+}
+.input-group.title-input {
+  margin-bottom: 20px;
+  flex-shrink: 0;      /* Don't let this shrink */
+}
 .title-input .form-control {
   border: none;
   font-size: 24px; 
@@ -169,12 +177,153 @@
 .metadata-row img.icon {
     margin-right: 8px
 }
-
+.border {
+        width: 100%;
+        height: 1px;
+        background: #E0E4EA;
+        margin-top: 5px;
+}
 @media (max-width: 768px) {
     .action-buttons {
     display: none !important;
   }
   .note-body {
     height: 63vh;
+  }
+}
+
+/* 1. Make the FORM the master container that fills the height */
+.note-editor-container {
+  display: flex;       /* Turn on Flexbox */
+  flex-direction: column; /* Stack items vertically */
+  height: calc(100vh - 125px);
+}
+
+/* 2. Keep the Title Inputs standard */
+.input-group.title-input {
+  margin-bottom: 20px;
+  flex-shrink: 0;      /* Don't let this shrink */
+}
+.title-input .form-control {
+  border: none;
+  font-size: 24px;
+  font-weight: 600; /* Made slightly bolder to match design */
+  line-height: 1.2;
+  padding: 0;
+  width: 100%;
+  color: #222;
+  background: transparent;
+}
+.title-input .form-control:focus {
+  outline: none;
+}
+
+/* 3. Metadata Section (Tags/Dates) - Keep rigid */
+.metadata-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-shrink: 0;      /* Don't let this shrink */
+}
+.metadata-item {
+  display: flex;
+  align-items: center;
+}
+.icon-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #6B7280; /* Updated color to match design gray */
+  font-family: Inter, sans-serif;
+  width: 120px;
+}
+.metadata-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+/* 4. The Border Line */
+.border {
+  width: 100%;
+  height: 1px;
+  background: #E5E7EB;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+/* 5. THE BODY: This is what needs to grow! */
+.note-body {
+  flex-grow: 1;        /* MAGIC: Eat up all empty space */
+  display: flex;       /* Use flex here too so the textarea fills IT */
+  flex-direction: column;
+  margin-top: 15px;
+  min-height: 0;       /* crucial for scrollable flex children */
+}
+
+/* 6. The Textarea: Fills the body */
+.note-textarea {
+  flex-grow: 1;        /* Fill the .note-body */
+  width: 100%;
+  height: 100%;        /* Ensure full height */
+  resize: none;        /* Disable manual drag handle */
+  border: none;
+  background: transparent;
+  font-size: 16px;     /* Increased for readability per design */
+  line-height: 1.6;
+  color: #374151;
+  font-family: Inter, sans-serif;
+  padding: 10px 0;
+}
+.note-textarea:focus {
+  outline: none;
+}
+
+/* 7. Action Buttons: Pushed to bottom */
+.action-buttons {
+  margin-top: 20px;    /* Space from text area */
+  padding-top: 20px;   /* Internal spacing */
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;      /* Keep buttons fixed size at bottom */
+  border-top: 1px solid transparent; /* Optional separator space */
+}
+
+/* Button Styles from Design */
+.btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background-color: #4F46E5; /* Indigo/Blurple from design */
+  color: white;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #4338CA;
+}
+.btn-secondary {
+  background: white;
+  color: #6B7280;
+  border: 1px solid transparent;
+}
+.btn-secondary:hover {
+  color: #111827;
+  background-color: #F3F4F6;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .action-buttons {
+    display: none !important; /* Design shows actions in header on mobile */
+  }
+  .note-body {
+    height: calc(100vh - 281px);
+    margin-bottom: 80px; /* Space for bottom nav if needed */
   }
 }

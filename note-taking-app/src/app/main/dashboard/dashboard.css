@@ -1,6 +1,8 @@
 .notes-layout {
   display: flex;
-  height: 92vh;
+  height: calc(100vh);
+  background: #fff;
+  border-top: 1px solid #E0E4EA;
 }
 
 .notes-sidebar {
@@ -45,6 +47,9 @@ img.restore, img.archive {
     display: none;
   }
   .notes-layout {
+    border-top: none;
+  }
+  .notes-layout {
     display: block;
   }
   .title {
@@ -66,7 +71,7 @@ img.restore, img.archive {
   .navbar {
     display: block !important;
     height: 45px !important;
-    width: 95% !important;
+    width: 92% !important;
   }
   .note-detail {
     background-color: #fff !important;
@@ -343,7 +348,7 @@ img.restore, img.archive {
   color: var(--color-gray-600);
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 300;
   cursor: pointer;
   padding: 0.5rem 0.5rem 0.5rem 0; /* Align left edge */
   transition: color 0.2s;
@@ -361,7 +366,7 @@ img.restore, img.archive {
 .editor-actions {
   display: flex;
   align-items: center;
-  width:68%;
+  width: 87%;
 }
 
 /* Shared Text Button Style */
@@ -370,16 +375,22 @@ img.restore, img.archive {
   border: none;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 300;
   cursor: pointer;
-  padding: 0.5rem;
-  transition: color 0.2s;
+}
+
+.btn-text.btn-save {
+  padding: 10px 0;
+}
+
+button.btn-text.btn-fab {
+    width: 31px;
 }
 
 /* Specific: Cancel (Gray) */
 .btn-cancel {
   color: var(--color-gray-600);
-
+  
   &:hover {
     color: var(--color-gray-800);
   }
@@ -388,7 +399,7 @@ img.restore, img.archive {
 /* Specific: Save (Blue) */
 .btn-save {
   color: #3B82F6; /* Bright Blue */
-  font-weight: 600; /* Slightly bolder for emphasis */
+  font-weight: 400; /* Slightly bolder for emphasis */
 
   &:hover {
     color: #2563EB; /* Darker Blue on hover */
