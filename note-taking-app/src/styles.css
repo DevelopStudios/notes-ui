@@ -120,6 +120,7 @@ html {
 .app-header {
   padding: 0 20px;
   margin: -6px;
+  background: #F3F5F8;
 }
 
 .header-content {

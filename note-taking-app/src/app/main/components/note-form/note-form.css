@@ -300,7 +300,7 @@
   transition: all 0.2s;
 }
 .btn-primary {
-  background-color: #4F46E5; /* Indigo/Blurple from design */
+  background-color: #007bff; /* Indigo/Blurple from design */
   color: white;
   border: none;
 }

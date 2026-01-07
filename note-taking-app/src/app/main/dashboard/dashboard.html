@@ -1,13 +1,15 @@
 <div class="navbar">
-  @if(id !== 'tags'){
   <div class="title">
+    @if(id === 'dashboard'){
     All Notes
-  </div>
-  } @else {
-  <div class="title">
+  } @else if(id === 'archived') {
+   Archived Notes
+  } @else if(id === 'tags'){
     <span class="tag-next">Notes Tagged:</span> {{tagName}}
-  </div>
   }
+  </div>
+  
+
   @if(formId && viewportWidth < 770) {
     <div class="editor-header">
     <button class="btn-back" (click)="goBack()">
@@ -17,24 +19,31 @@
       Go Back
     </button>
     <div class="editor-actions">
-      <button class="btn-text btn-fab">
+      <button class="btn-text btn-fab" (click)="confirmDelete()">
         <img src="/assets/Border Button [Delete].svg" alt="">
       </button>
-      <button class="btn-text btn-fab">
-        <img src="/assets/Border Button [Archive].svg" alt="">
-      </button>
-      <button class="btn-text btn-cancel">Cancel</button>
+      @if(id === 'archived'){
+        <button class="btn-text btn-fab" (click)="restoreNote()">
+          <img src="/assets/Border Button [Archive].svg" alt="">
+        </button>
+      } @else {
+        <button class="btn-text btn-fab" (click)="confirmArchive()">
+          <img src="/assets/Border Button [Archive].svg" alt="">
+        </button>
+      }
+      
+      <button class="btn-text btn-cancel" (click)="goBack()">Cancel</button>
       <button class="btn-text btn-save">Save Note</button>
     </div>
   </div>
   <div class="border"></div>
   } @else if(viewportWidth < 770){
-    @if(id !== 'tags'){
+    @if(id === 'dashboard'){
       <div class="title-mobile">
         All Notes
       </div>
-      } @else {
-      <div class="title">
+      } @else if(id === 'tags') {
+      <div class="title-mobile">
         <span class="tag-next">Notes Tagged:</span> {{tagName}}
       </div>
   }

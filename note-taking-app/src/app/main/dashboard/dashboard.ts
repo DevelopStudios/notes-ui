@@ -54,7 +54,7 @@ export class Dashboard implements OnInit {
       setTimeout(() => {
         this.checkViewPort();
         this.activeRoute = value[0]?.path;
-        
+ 
         if (value[0]?.path === 'create') {
           this.id = 'create';
         } else if (value[0]?.path === 'tags') {
@@ -66,6 +66,10 @@ export class Dashboard implements OnInit {
             }
             this.id = 'tags'
           }
+        } else if(value[0]?.path === 'archived') {
+          this.id = value[0]?.path;
+        } else if(value[0]?.path === 'dashboard'){
+          this.id = value[0]?.path;
         } else {
           this.id = value[1]?.path;
         }
@@ -158,6 +162,8 @@ export class Dashboard implements OnInit {
 
   goBack() {
     this.router.navigate(['./dashboard']);
+    this.hideSidebar = false;
+    this.formId = false;
   }
 
   onSearchChange(event: Event) {

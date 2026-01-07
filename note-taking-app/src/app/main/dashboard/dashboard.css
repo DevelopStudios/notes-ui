@@ -43,6 +43,9 @@ img.restore, img.archive {
     letter-spacing: 0.5px;
 }
 @media (max-width: 768px) {
+  .notes-layout {
+    height: calc(100vh - 129px);
+  }
   .button-container {
     display: none;
   }
