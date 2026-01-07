@@ -47,6 +47,11 @@ export const mainRoutes: Routes = [
                 component: Dashboard,
                 title: 'Settings'
             },
+            {
+                path: 'search',
+                component: Dashboard,
+                title: 'Search'
+            },
             {path:'', redirectTo:'dashboard', pathMatch:'full'},
         ]
     }

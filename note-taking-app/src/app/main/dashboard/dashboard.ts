@@ -54,7 +54,7 @@ export class Dashboard implements OnInit {
       setTimeout(() => {
         this.checkViewPort();
         this.activeRoute = value[0]?.path;
- 
+       
         if (value[0]?.path === 'create') {
           this.id = 'create';
         } else if (value[0]?.path === 'tags') {
@@ -70,6 +70,10 @@ export class Dashboard implements OnInit {
           this.id = value[0]?.path;
         } else if(value[0]?.path === 'dashboard'){
           this.id = value[0]?.path;
+        } else if(this.activeRoute === 'search') {
+          this.id = 'search'
+        } else if(this.activeRoute === 'settings') {
+          this.id = 'settings'
         } else {
           this.id = value[1]?.path;
         }

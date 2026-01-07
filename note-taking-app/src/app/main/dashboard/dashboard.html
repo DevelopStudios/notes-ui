@@ -46,6 +46,18 @@
       <div class="title-mobile">
         <span class="tag-next">Notes Tagged:</span> {{tagName}}
       </div>
+  } @else if(id === 'search') {
+      <div class="title-mobile">
+        Search
+      </div>
+  } @else if(id === 'archived') {
+    <div class="title-mobile">
+        Archived
+      </div>
+  } @else if(id === 'settings') {
+    <div class="title-mobile">
+        Settings
+      </div>
   }
   }
   <div class="navbar-brand">
@@ -68,8 +80,18 @@
 </div>
 <div class="notes-layout">
   <div class="notes-sidebar" [ngClass]="{'hide' : hideSidebar}">
+    
     <div class="inner-container">
-
+         @if(activeRoute === 'search') {
+        <div class="mobile-search-container">
+          <input type="text" placeholder="Search by title, content, or tags..." (input)="onSearchChange($event)"
+            class="search-input">
+          <i class="search-icon">
+            <img src="/assets/Search.svg" alt="Settings">
+          </i>
+        </div>
+         }
+      
       @if(activeRoute !== 'settings') {
       <div class="button-container">
         <button class="add-button" [routerLink]="['/create']">

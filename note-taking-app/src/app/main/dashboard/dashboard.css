@@ -41,6 +41,7 @@ img.restore, img.archive {
     font-weight: bold;
     font-size: 24px;
     letter-spacing: 0.5px;
+    line-height: 3.1;
 }
 @media (max-width: 768px) {
   .notes-layout {
@@ -389,7 +390,12 @@ img.restore, img.archive {
 button.btn-text.btn-fab {
     width: 31px;
 }
-
+.mobile-search-container  {
+  position: relative;
+  .search-input {
+    width: calc(100vw - 114px);
+  }
+}
 /* Specific: Cancel (Gray) */
 .btn-cancel {
   color: var(--color-gray-600);
