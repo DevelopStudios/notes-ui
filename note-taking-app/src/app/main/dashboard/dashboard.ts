@@ -127,6 +127,8 @@ export class Dashboard implements OnInit {
       next:(value)=> {
         this.isDeleteModalOpen = false;
         this.router.navigate(['/dashboard']);
+        this.hideSidebar = false;
+        this.formId = false;
         this.noteService.refreshNotes();
       }
     })
@@ -138,6 +140,10 @@ export class Dashboard implements OnInit {
       return value.id === idNum;
     });
     this.tagName = found[0]?.name;
+  }
+  
+  saveNote(){
+    this.noteService.emitSaveEvent();
   }
 
   archiveNote() {

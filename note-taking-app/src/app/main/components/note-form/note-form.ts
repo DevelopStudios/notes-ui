@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NotesService } from '../../../core/services/notes';
 import { Note, NotePayload } from '../../../core/models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-note-form',
@@ -17,6 +17,7 @@ export class NoteForm implements OnInit,OnDestroy {
   private noteService = inject(NotesService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private saveEventSub!: Subscription;
   tags: string[] = [];
   noteId: string | null = null;
   selectedNote: Note | null = null;
@@ -49,10 +50,12 @@ export class NoteForm implements OnInit,OnDestroy {
             this.getNote(this.noteId);
           }
         }
-        
         return ''
       })
     ).subscribe();
+    this.saveEventSub = this.noteService.saveAction$.subscribe(value => {
+      this.saveNote();
+    });
   }
 
   saveNote(): void {
@@ -93,7 +96,6 @@ export class NoteForm implements OnInit,OnDestroy {
         this.router.navigate(['./dashboard']);
       }));
     }
-
   }
 
   cancelNote() {

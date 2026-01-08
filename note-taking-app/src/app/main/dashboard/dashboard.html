@@ -8,9 +8,7 @@
     <span class="tag-next">Notes Tagged:</span> {{tagName}}
   }
   </div>
-  
-
-  @if(formId && viewportWidth < 770) {
+  @if(formId && viewportWidth < 770 || id === 'create') {
     <div class="editor-header">
     <button class="btn-back" (click)="goBack()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -33,7 +31,7 @@
       }
       
       <button class="btn-text btn-cancel" (click)="goBack()">Cancel</button>
-      <button class="btn-text btn-save">Save Note</button>
+      <button class="btn-text btn-save" (click)="saveNote()">Save Note</button>
     </div>
   </div>
   <div class="border"></div>
@@ -104,8 +102,8 @@
       }
     </div>
   </div>
-          <div class="note-detail">
-            <router-outlet></router-outlet>
+  <div class="note-detail">
+      <router-outlet></router-outlet>
   </div>    
   <div class="note-actions">
      @if(formId){
@@ -121,8 +119,6 @@
           Archive Note
         </button>
         }
-        
-
         <button type="button" class="btn-outline" (click)="confirmDelete()">
           <img class="archive" src="/assets/Delete.svg">
           Delete Note

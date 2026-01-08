@@ -16,7 +16,8 @@ export class NotesService {
   private noteSubject = new BehaviorSubject<Note[]>([]);
   private tagSubject = new BehaviorSubject<Tag[]>([]);
   public formActive = new Subject<any>();
-
+  private saveButtonSubject = new Subject<void>();
+  saveAction$ = this.saveButtonSubject.asObservable();
 
   tags$ = this.tagSubject.asObservable();
   notes$ = this.noteSubject.asObservable();
@@ -40,6 +41,9 @@ export class NotesService {
     });
   }
 
+  emitSaveEvent() {
+    this.saveButtonSubject.next();
+  }
 
   // Helper Function
   fetchNotesByQuery(params: any): void {
