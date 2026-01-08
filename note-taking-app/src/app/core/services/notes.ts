@@ -18,19 +18,18 @@ export class NotesService {
   public formActive = new Subject<any>();
   private saveButtonSubject = new Subject<void>();
   saveAction$ = this.saveButtonSubject.asObservable();
-
+  private navItemPressed = new Subject<void>();
+  navPress$ = this.navItemPressed.asObservable();
   tags$ = this.tagSubject.asObservable();
   notes$ = this.noteSubject.asObservable();
   constructor(private http: HttpClient) { }
 
-  // Refresh Methods
   refreshNotes():void {
     this.http.get<PaginatedNoteResponse>(this.apiUrl).subscribe(response => {
       this.noteSubject.next(response.results);
   });
   }
 
-    
   setSearchTerm(term: string) {
     this.searchSubject.next(term);
   }
@@ -41,18 +40,20 @@ export class NotesService {
     });
   }
 
+  emitNavItemPress(){
+    this.navItemPressed.next();
+  }
+
   emitSaveEvent() {
     this.saveButtonSubject.next();
   }
 
-  // Helper Function
   fetchNotesByQuery(params: any): void {
     this.http.get<PaginatedNoteResponse>(this.apiUrl, {params}).subscribe(res => {
       this.noteSubject.next(res.results);
     })
   }
 
-  // CRUD Operations
   archiveNote(id: string): Observable<any> {
     return this.http.patch<any>(this.apiUrl + id + '/', { is_archived: true });
   }
@@ -99,7 +100,6 @@ export class NotesService {
     ));
   }
 
-  // Read-Only
   getNotes(): Observable<PaginatedNoteResponse> {
     return this.http.get<PaginatedNoteResponse>(this.apiUrl);
   }

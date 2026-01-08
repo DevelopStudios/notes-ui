@@ -32,6 +32,7 @@ export class NoteForm implements OnInit,OnDestroy {
 
   ngOnDestroy(): void {
     this.noteService.formActive.next(null);
+    this.saveEventSub.unsubscribe();
   }
 
   ngOnInit(): void {

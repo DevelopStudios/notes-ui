@@ -1,10 +1,8 @@
 :host {
     display: block;
     width: 100%;
-    max-width: 320px; /* Adjust width as needed */
+    max-width: 320px;
 }
-
-
 
 .menu-item {
     display: flex;
@@ -18,11 +16,11 @@
     transition: background-color 0.2s ease;
     color: #333;
     font-size: 15px;
-    font-family: inherit; /* Use your app's font */
+    font-family: inherit;
 }
 
 .menu-item:hover {
-    background-color: #f7f7f7; /* Subtle hover gray */
+    background-color: #f7f7f7;
 }
 
 .icon-wrapper {
@@ -30,12 +28,13 @@
     align-items: center;
     justify-content: center;
     margin-right: 14px;
-    color: #555; /* Slightly lighter icon color */
+    color: #555;
 }
 
 .label {
-    flex: 1; /* Pushes the chevron to the far right */
+    flex: 1;
     font-weight: 500;
+    font-family: 'Inter';
 }
 
 .chevron {

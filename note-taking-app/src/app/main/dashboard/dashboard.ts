@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
-import {map, Observable } from 'rxjs';
+import {map, Observable, Subscription } from 'rxjs';
 import { NotesService } from '../../core/services/notes';
 import { Tag } from '../../core/models/note.model';
 import { ModalComponent } from "../../core/modals/modal";
@@ -26,12 +26,10 @@ export class Dashboard implements OnInit {
   isDeleteModalOpen = false;
   isArchiveModalOpen = false;
   formId:any = undefined;
-
   viewportWidth: number = 0;
   currentParams: any = {};
   hideSidebar:boolean = false;
-
-
+  private buttonPressSub!: Subscription;
   private noteService = inject(NotesService);
   private router = inject(Router);
   private toastService = inject(ToastService);
@@ -83,6 +81,10 @@ export class Dashboard implements OnInit {
     setTimeout(() => {
       this.formId = value;
     }, 0);
+  });
+  this.buttonPressSub = this.noteService.navPress$.subscribe(value => {
+        this.hideSidebar = false;
+        this.formId = false;
   });
   }
 
@@ -144,6 +146,8 @@ export class Dashboard implements OnInit {
   
   saveNote(){
     this.noteService.emitSaveEvent();
+    this.hideSidebar = false;
+    this.formId = false;
   }
 
   archiveNote() {
