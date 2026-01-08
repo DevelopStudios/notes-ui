@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NoteList } from "../components/note-list/note-list";
 import {map, Observable, Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ import { UserSettings } from "../components/user-settings/user-settings";
   styleUrl: './dashboard.css'
 })
 
-export class Dashboard implements OnInit {
+export class Dashboard implements OnInit,OnDestroy {
   id:string = '';
   tages$: Observable<Tag[]>;
   tagList:any;
@@ -86,6 +86,10 @@ export class Dashboard implements OnInit {
         this.hideSidebar = false;
         this.formId = false;
   });
+  }
+
+  ngOnDestroy(): void {
+    this.buttonPressSub.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
