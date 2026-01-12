@@ -18,15 +18,15 @@
     </button>
     <div class="editor-actions">
       <button class="btn-text btn-fab" (click)="confirmDelete()">
-        <img src="/assets/Border Button [Delete].svg" alt="">
+        <img src="/assets/BorderButton[Delete].svg" alt="">
       </button>
       @if(id === 'archived'){
         <button class="btn-text btn-fab" (click)="restoreNote()">
-          <img src="/assets/Border Button [Archive].svg" alt="">
+          <img src="/assets/BorderButton[Archive].svg" alt="">
         </button>
       } @else {
         <button class="btn-text btn-fab" (click)="confirmArchive()">
-          <img src="/assets/Border Button [Archive].svg" alt="">
+          <img src="/assets/BorderButton[Archive].svg" alt="">
         </button>
       }
       
@@ -110,7 +110,7 @@
       <div class="secondary-actions">
         @if(activeRoute === 'archived'){
           <button type="button" class="btn-outline" (click)="restoreNote()">
-          <img src="/assets/Refresh left.svg" class="restore">
+          <img src="/assets/Refreshleft.svg" class="restore">
           Restore Note
         </button>
         } @else {
