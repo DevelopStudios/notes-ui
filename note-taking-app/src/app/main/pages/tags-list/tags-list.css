@@ -1,0 +1,47 @@
+.tag-list-container {
+  display: flex;
+  padding: 0 30px;
+  padding-top: 20px;
+  flex-direction: column;
+  background: #fff; /* White background */
+  height: calc(99vh - 50px);
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 0; /* Top/Bottom padding matches the spacious look */
+  border-bottom: 1px solid #f0f0f0; /* The thin divider line */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Remove border from the very last item if you want strictly matching the image style */
+.tag-item:last-child {
+  border-bottom: none;
+}
+
+.tag-item:hover {
+  background-color: #fafafa; /* Subtle hover effect */
+}
+
+.icon {
+  margin-right: 16px; /* Space between icon and text */
+  color: #333;        /* Dark icon color */
+  flex-shrink: 0;     /* Prevents icon from squishing on small screens */
+}
+
+.tag-label {
+  font-family: sans-serif;
+  font-size: 16px;
+  color: #333;
+  font-weight: 400;
+}
+
+:host .title {
+    font-size: 24px;
+    padding: 10px 0;
+    font-family: Inter;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

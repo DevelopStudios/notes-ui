@@ -3,6 +3,7 @@ import { Shell } from "./shell/shell";
 import { authGuard } from "../core/guards/auth-guard";
 import { Dashboard } from "./dashboard/dashboard";
 import { NoteForm } from "./components/note-form/note-form";
+import { TagsList } from "./pages/tags-list/tags-list";
 
 export const mainRoutes: Routes = [
     {
@@ -33,6 +34,11 @@ export const mainRoutes: Routes = [
                 children: [
                     { path: ':noteId', component: NoteForm }
                 ]
+            },
+            {
+                path: 'tags',
+                component: TagsList,
+                title: 'Tags',
             },
             {
                 path: 'create',
