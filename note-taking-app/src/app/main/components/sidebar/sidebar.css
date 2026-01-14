@@ -58,6 +58,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  font-family: Inter;
 }
 
 .nav-icon {
@@ -113,6 +114,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  font-family: Inter;
 }
 
 .tag-item {

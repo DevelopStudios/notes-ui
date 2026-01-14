@@ -4,6 +4,7 @@ import { authGuard } from "../core/guards/auth-guard";
 import { Dashboard } from "./dashboard/dashboard";
 import { NoteForm } from "./components/note-form/note-form";
 import { TagsList } from "./pages/tags-list/tags-list";
+import { ChangePassword } from "./components/change-password/change-password";
 
 export const mainRoutes: Routes = [
     {
@@ -51,7 +52,10 @@ export const mainRoutes: Routes = [
             {
                 path: 'settings',
                 component: Dashboard,
-                title: 'Settings'
+                title: 'Settings',
+                children: [
+                    { path: 'password-change', component: ChangePassword, title: 'Change Password' }
+                ]
             },
             {
                 path: 'search',

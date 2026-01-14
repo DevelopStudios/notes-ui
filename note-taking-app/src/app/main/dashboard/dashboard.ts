@@ -41,18 +41,18 @@ export class Dashboard implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
-   this.tages$.subscribe(value => {
-    setTimeout(() => {
-      this.tagList = value;
-    }, 0);
-  });
+    this.tages$.subscribe(value => {
+      setTimeout(() => {
+        this.tagList = value;
+      }, 0);
+    });
 
     this.route?.url.pipe(map((value) => {
       // FIX 1: Wrap Route logic in setTimeout to prevent NG0100 error
       setTimeout(() => {
         this.checkViewPort();
         this.activeRoute = value[0]?.path;
-       
+
         if (value[0]?.path === 'create') {
           this.id = 'create';
         } else if (value[0]?.path === 'tags') {
@@ -64,28 +64,34 @@ export class Dashboard implements OnInit,OnDestroy {
             }
             this.id = 'tags'
           }
-        } else if(value[0]?.path === 'archived') {
+        } else if (value[0]?.path === 'archived') {
           this.id = value[0]?.path;
-        } else if(value[0]?.path === 'dashboard'){
+        } else if (value[0]?.path === 'dashboard') {
           this.id = value[0]?.path;
-        } else if(this.activeRoute === 'search') {
+        } else if (this.activeRoute === 'search') {
           this.id = 'search'
-        } else if(this.activeRoute === 'settings') {
+        } else if (this.activeRoute === 'settings') {
           this.id = 'settings'
         } else {
           this.id = value[1]?.path;
         }
-      }, 0);
+      }, 2);
     })).subscribe();
     this.noteService.formActive.subscribe((value: boolean) => {
-    setTimeout(() => {
-      this.formId = value;
-    }, 0);
-  });
-  this.buttonPressSub = this.noteService.navPress$.subscribe(value => {
-        this.hideSidebar = false;
-        this.formId = false;
-  });
+      setTimeout(() => {
+        this.formId = value;
+      }, 0);
+    });
+    this.buttonPressSub = this.noteService.navPress$.subscribe(value => {
+      this.hideSidebar = false;
+      this.formId = false;
+    });
+
+    this.noteService.hideSidebar$.subscribe(value => {
+      if (this.viewportWidth < 770) {
+        this.hideSidebar = true
+      }
+    })
   }
 
   ngOnDestroy(): void {
@@ -100,7 +106,7 @@ export class Dashboard implements OnInit,OnDestroy {
   checkViewPort() {
     this.viewportWidth = window.innerWidth;
     const params = this.route?.snapshot?.children[0]?.params;
-    if(this.viewportWidth < 770 && params !== undefined) {
+    if (this.viewportWidth < 770 && params !== undefined) {
       this.hideSidebar = true;
     } else {
       this.hideSidebar = false;
@@ -114,7 +120,6 @@ export class Dashboard implements OnInit,OnDestroy {
   }
 
   toggleUserSettings() {
-    console.log(true);
     this.router.navigate(['./settings'])
   }
 

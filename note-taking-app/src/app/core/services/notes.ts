@@ -18,6 +18,8 @@ export class NotesService {
   public formActive = new Subject<any>();
   private saveButtonSubject = new Subject<void>();
   saveAction$ = this.saveButtonSubject.asObservable();
+  private hideSidebar = new Subject<void>();
+  hideSidebar$ = this.hideSidebar.asObservable();
   private navItemPressed = new Subject<void>();
   navPress$ = this.navItemPressed.asObservable();
   tags$ = this.tagSubject.asObservable();
@@ -34,6 +36,9 @@ export class NotesService {
     this.searchSubject.next(term);
   }
 
+  togglehideSidebar(){
+    this.hideSidebar.next();
+  }
   refreshTags():void {
     this.http.get<PaginatedTagResponse>(this.tagsUrl).subscribe(response => {
       this.tagSubject.next(response.results);
@@ -98,6 +103,10 @@ export class NotesService {
     return this.http.delete(`${this.apiUrl}${id}/`).pipe(tap(()=> 
       this.refreshTags()
     ));
+  }
+
+  changePassword(data: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}auth/change-password/`, data);
   }
 
   getNotes(): Observable<PaginatedNoteResponse> {
