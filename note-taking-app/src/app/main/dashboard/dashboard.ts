@@ -48,7 +48,6 @@ export class Dashboard implements OnInit,OnDestroy {
     });
 
     this.route?.url.pipe(map((value) => {
-      // FIX 1: Wrap Route logic in setTimeout to prevent NG0100 error
       setTimeout(() => {
         this.checkViewPort();
         this.activeRoute = value[0]?.path;
@@ -113,7 +112,6 @@ export class Dashboard implements OnInit,OnDestroy {
     }
   }
 
-  //Modal
   confirmDelete() {
     this.isArchiveModalOpen = false;
     this.isDeleteModalOpen = true;
@@ -141,6 +139,7 @@ export class Dashboard implements OnInit,OnDestroy {
         this.hideSidebar = false;
         this.formId = false;
         this.noteService.refreshNotes();
+        this.toastService.show('Note deleted successfully', 'success')
       }
     })
   }
@@ -166,9 +165,10 @@ export class Dashboard implements OnInit,OnDestroy {
       this.noteService.refreshNotes();
       this.noteService.refreshTags();
       this.toastService.show(
-        'Note archived.',       // Message
-        'Archived Notes',       // Link Text
-        '/archived'             // Link Route
+        'Note archived.',
+        'success',
+        'Archived Notes',
+        '/archived'
       );
     }
    });

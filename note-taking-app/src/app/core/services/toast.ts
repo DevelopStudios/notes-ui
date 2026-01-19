@@ -5,7 +5,7 @@ export interface ToastData {
   message: string;
   actionLabel?: string;
   actionRoute?: string;
-  type: 'success' | 'error';
+  type: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -14,10 +14,9 @@ export class ToastService {
   toast$ = this.toastSubject.asObservable();
   private timeoutId: any;
 
-  show(message: string, actionLabel?: string, actionRoute?: string, type: 'success' = 'success') {
+  show(message: string, type: string, actionLabel?: string, actionRoute?: string) {
     if (this.timeoutId) clearTimeout(this.timeoutId);
     this.toastSubject.next({ message, actionLabel, actionRoute, type });
-
     this.timeoutId = setTimeout(() => {
       this.hide();
     }, 4000);

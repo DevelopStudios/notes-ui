@@ -5,6 +5,7 @@ import { NotesService } from '../../../core/services/notes';
 import { Note, NotePayload } from '../../../core/models/note.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
+import { ToastService } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-note-form',
@@ -18,6 +19,7 @@ export class NoteForm implements OnInit,OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private saveEventSub!: Subscription;
+  private toast = inject(ToastService);
   tags: string[] = [];
   noteId: string | null = null;
   selectedNote: Note | null = null;
@@ -61,10 +63,6 @@ export class NoteForm implements OnInit,OnDestroy {
 
   saveNote(): void {
     let id = this.noteForm.get('id')?.value;
-    if (this.noteForm.invalid) {
-      console.error('Form is invalid. Cannot save note.');
-      return;
-    }
     const formValue = this.noteForm.value;
     const tagArray = formValue.tags
       ? formValue.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0)
@@ -75,6 +73,10 @@ export class NoteForm implements OnInit,OnDestroy {
       is_archived: formValue.is_archived,
       tag_names: tagArray,
     };
+    if (this.noteForm.invalid) {
+      this.toast.show('Error, form is invalid','error');
+      return;
+    }
     if (id !== null) {
       this.noteService.updateNote(id, payload).subscribe({
         next: (response:any) => {
@@ -82,18 +84,19 @@ export class NoteForm implements OnInit,OnDestroy {
           delete response.created_at;
           delete response.updated_at;
           this.noteForm.setValue(response);
-          console.log('Note updated successfully!', response);
+          this.toast.show('Note updated successfully!','success');
           this.noteForm.reset({ is_archived: false });
           this.router.navigate(['./dashboard']);
         },
         error: (error) => {
-          console.error('Error saving note:', error);
+          this.toast.show('Error saving note','error')
         }
       });
     } else {
       this.noteService.createNote(payload).subscribe(
       (value => {
         this.noteForm.reset({ is_archived: false });
+        this.toast.show('Note saved successfully','success');
         this.router.navigate(['./dashboard']);
       }));
     }
@@ -114,7 +117,7 @@ export class NoteForm implements OnInit,OnDestroy {
       }, 0);
     },
     error: (err) => {
-      console.log(err.message);
+      this.toast.show(err.message, 'error');
     }
   });
 }

@@ -12,29 +12,33 @@ import { animate, style, transition, trigger } from '@angular/animations';
   template: `
     @if (toastService.toast$ | async; as toast) {
       <div class="toast-container" @slideInOut>
-        
-        <div class="icon-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-
+        @if(toast?.type === 'error') {
+        <div class="icon-wrapper error">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#EF4444"/> <path d="M12 8V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 16H12.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          } @else if(toast?.type === 'success'){
+          <div class="icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          }
         <span class="toast-message">{{ toast.message }}</span>
-
-        @if (toast.actionLabel) {
+        @if (toast?.actionLabel) {
           <a class="toast-action" 
-             (click)="navigate(toast.actionRoute!)">
-             {{ toast.actionLabel }}
+             (click)="navigate(toast?.actionRoute!)">
+             {{ toast?.actionLabel }}
           </a>
         }
-
         <button class="close-btn" (click)="toastService.hide()">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-
       </div>
     }
   `,
@@ -56,7 +60,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
       
       z-index: 3000; /* Above modals */
-      min-width: 320px;
+      min-width: 450px;
       max-width: 90vw;
     }
 
@@ -67,11 +71,16 @@ import { animate, style, transition, trigger } from '@angular/animations';
       justify-content: center;
       width: 24px;
       height: 24px;
-      background-color: #22C55E; /* Tailwind Green-500 */
+      background-color: #22C55E;
       border-radius: 50%;
       color: white;
       flex-shrink: 0;
     }
+    .error {
+      background-color: #EF4444;
+    }
+
+    
     
     .icon-wrapper svg {
       width: 14px;
@@ -113,6 +122,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
       align-items: center;
       padding: 0;
       margin-left: 8px;
+      width: 19px;
     }
     
     .close-btn:hover {
@@ -138,7 +148,7 @@ export class ToastComponent {
   navigate(route: string) {
     if (route) {
       this.router.navigate([route]);
-      this.toastService.hide(); // Close toast on navigation
+      this.toastService.hide();
     }
   }
 }
