@@ -55,6 +55,7 @@ img.restore, img.archive {
   }
   .notes-layout {
     display: block;
+    width: calc(100vw - 12px);
   }
   .title {
     display: none;
